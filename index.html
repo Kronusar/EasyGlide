@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EasyGlide — Coming Soon</title>
+<meta name="description" content="EasyGlide — The universal curtain-loading adapter. Coming soon.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0D0D0D;--text:#F0EDE6;--dim:#8A877F;--amber:#D4903A;--teal:#5A9C8B;--border:#222}
+html{-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+body::before{content:'';position:absolute;top:-150px;right:-150px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(212,144,58,.06) 0%,transparent 70%);pointer-events:none}
+body::after{content:'';position:absolute;bottom:-100px;left:-100px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(90,156,139,.04) 0%,transparent 70%);pointer-events:none}
+.wrap{text-align:center;position:relative;z-index:1;padding:40px 24px;max-width:480px}
+.logo{display:inline-flex;align-items:center;gap:10px;margin-bottom:48px}
+.logo svg{height:28px;width:auto}
+.logo span{font-family:'DM Serif Display',serif;font-size:20px;color:var(--text)}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(32px,6vw,48px);line-height:1.1;margin-bottom:16px}
+h1 em{font-style:normal;color:var(--amber)}
+p{font-size:15px;color:var(--dim);line-height:1.6;font-weight:300;margin-bottom:32px}
+.line{width:60px;height:1px;background:linear-gradient(90deg,var(--amber),transparent);margin:0 auto 32px}
+.tag{display:inline-block;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--dim);border:1px solid var(--border);padding:8px 16px;border-radius:3px}
+.foot{position:absolute;bottom:24px;left:0;right:0;text-align:center;font-size:10px;color:var(--dim);letter-spacing:.08em}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">
+    <svg viewBox="0 0 40 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="8" y="2" width="24" height="8" rx="2" fill="#D4903A"/>
+      <rect x="16" y="10" width="8" height="14" rx="1" fill="#F0EDE6"/>
+      <path d="M16 24 L16 38 Q16 46 22 46 L26 46 Q30 46 30 42 L30 36 Q30 32 26 32 L22 32" stroke="#F0EDE6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    <span>EasyGlide</span>
+  </div>
+  <h1><em>Something</em> is coming.</h1>
+  <div class="line"></div>
+  <p>A smarter way to hang curtains. We're building something new. Stay tuned.</p>
+  <span class="tag">Coming Soon</span>
+</div>
+<div class="foot">EasyGlide &middot; A GleitFix product &middot; Designed in Switzerland</div>
+</body>
+</html>
