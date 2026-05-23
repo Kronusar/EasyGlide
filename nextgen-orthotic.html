@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Next-Gen Orthotic Design — Scan. Design. Fabricate.</title>
+  <meta name="description" content="A Biomechanical Intelligence Platform revolutionizing personalized orthotic design through AI, parametric modeling, and digital fabrication.">
+  <meta property="og:title" content="Next-Gen Orthotic Design — Scan. Design. Fabricate.">
+  <meta property="og:description" content="Revolutionizing personalized healthcare through biomechanical intelligence and digital fabrication.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#07090F;--surface:#0C1021;--text:#EBF0FF;--text-dim:#8A96BC;
+      --text-secondary:#4E5B80;--blue:#4B8EE8;--teal:#26C9A8;
+      --blue-bright:#6BAAFF;--blue-dim:rgba(75,142,232,0.10);
+      --border:#182038;
+      --font-display:'DM Serif Display',Georgia,serif;
+      --font-body:'DM Sans','Helvetica Neue',Arial,sans-serif;
+    }
+    html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:#1E2A4A;border-radius:3px}
+    body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:18px;line-height:1.6;overflow-x:hidden}
+    body.loading{overflow:hidden}
+    ::selection{background:var(--blue);color:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* LOADER */
+    .loader{position:fixed;inset:0;z-index:9000;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem}
+    .loader-text{font-family:var(--font-display);font-size:1.2rem;color:var(--text-secondary);letter-spacing:.1em}
+    .loader-bar{width:120px;height:1px;background:var(--border);position:relative;overflow:hidden}
+    .loader-bar::after{content:'';position:absolute;top:0;left:0;height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--teal));animation:loaderFill 1.4s cubic-bezier(.4,0,.2,1) forwards}
+    @keyframes loaderFill{0%{width:0%}100%{width:100%}}
+
+    /* PROGRESS */
+    .scroll-progress{position:fixed;top:0;left:0;height:2px;width:0%;background:linear-gradient(90deg,var(--blue),var(--teal));z-index:200}
+
+    /* GRAIN */
+    .grain{position:fixed;inset:0;z-index:8000;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px}
+
+    /* ORBS */
+    .orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;will-change:transform}
+    .orb-1{width:500px;height:500px;background:radial-gradient(circle,var(--blue-dim) 0%,transparent 70%);top:5%;left:-10%;opacity:.5}
+    .orb-2{width:450px;height:450px;background:radial-gradient(circle,rgba(38,201,168,.07) 0%,transparent 70%);bottom:10%;right:-12%;opacity:.5}
+
+    /* CURSOR GLOW */
+    .cursor-glow{position:fixed;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(75,142,232,.03) 0%,transparent 70%);pointer-events:none;z-index:1;transform:translate(-50%,-50%)}
+
+    /* LABEL */
+    .label{font-family:var(--font-body);font-size:.65rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+    .label::before{content:'';width:20px;height:1px;background:var(--blue);flex-shrink:0}
+
+    .container{max-width:1200px;margin:0 auto;padding:0 clamp(1.5rem,5vw,4rem);position:relative;z-index:2}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 0;transition:background .6s,padding .6s,border-color .6s;border-bottom:1px solid transparent}
+    nav.scrolled{background:rgba(7,9,15,.94);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);padding:.75rem 0;border-bottom-color:rgba(255,255,255,.03)}
+    nav .container{display:flex;justify-content:space-between;align-items:center}
+    .nav-logo{display:flex;align-items:center;gap:10px}
+    .nav-logo-icon{height:32px;width:auto;opacity:.9;transition:opacity .3s}
+    .nav-logo:hover .nav-logo-icon{opacity:1}
+    .nav-logo-text{font-family:var(--font-display);font-size:1.05rem;letter-spacing:-.01em;color:var(--text);opacity:.9}
+    .nav-cta{font-size:.75rem;font-weight:500;letter-spacing:.08em;padding:.5rem 1.3rem;border:1px solid rgba(75,142,232,.35);color:var(--blue);border-radius:100px;transition:all .5s cubic-bezier(.25,.46,.45,.94);position:relative;overflow:hidden}
+    .nav-cta::before{content:'';position:absolute;inset:0;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform .5s cubic-bezier(.25,.46,.45,.94);z-index:-1;border-radius:100px}
+    .nav-cta:hover{color:var(--bg);border-color:var(--blue)}
+    .nav-cta:hover::before{transform:scaleX(1)}
+
+    /* SHAPES */
+    .shape{position:absolute;pointer-events:none;will-change:transform}
+    .shape-circle{border-radius:50%;border:1px solid currentColor}
+    .shape-dot{border-radius:50%;background:currentColor}
+    .shape-ring{border-radius:50%;border:1px solid currentColor}
+    .shape-plus{position:relative}
+    .shape-plus::before,.shape-plus::after{content:'';position:absolute;top:50%;left:50%;background:currentColor}
+    .shape-plus::before{width:1px;height:100%;transform:translate(-50%,-50%)}
+    .shape-plus::after{width:100%;height:1px;transform:translate(-50%,-50%)}
+    .shape-line{height:1px;background:currentColor}
+
+    /* HERO */
+    .hero{position:relative;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:6rem 2rem 4rem;overflow:hidden}
+    .hero-label{font-family:var(--font-body);font-size:.7rem;font-weight:400;letter-spacing:.45em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:2.5rem;overflow:hidden}
+    .hero-label-inner{display:inline-block}
+    .hero-lines{margin-bottom:3rem}
+    .hero-line{font-family:var(--font-display);font-size:clamp(3.5rem,9vw,10rem);line-height:1.08;display:block;overflow:hidden}
+    .hero-line .line-inner{display:block;will-change:transform}
+    .hero-line:nth-child(1){color:var(--text)}
+    .hero-line:nth-child(2){color:var(--blue);text-shadow:0 0 80px rgba(75,142,232,.15)}
+    .hero-line:nth-child(3){color:var(--teal);text-shadow:0 0 60px rgba(38,201,168,.12)}
+    .hero-sub{font-size:clamp(.9rem,1.6vw,1.05rem);color:var(--text-secondary);max-width:480px;margin-bottom:3rem;line-height:1.75;font-weight:300;letter-spacing:.015em}
+    .btn-magnetic{position:relative;display:inline-flex}
+    .btn-primary{display:inline-flex;align-items:center;gap:.7rem;font-family:var(--font-body);font-size:1.1rem;font-weight:500;letter-spacing:.02em;padding:1.15rem 2.8rem;background:var(--blue);color:var(--bg);border:none;border-radius:100px;cursor:pointer;transition:box-shadow .5s;text-decoration:none;position:relative;overflow:hidden}
+    .btn-primary::after{content:'';position:absolute;inset:0;border-radius:100px;background:linear-gradient(135deg,rgba(255,255,255,.18) 0%,transparent 50%);opacity:0;transition:opacity .5s}
+    .btn-primary:hover::after{opacity:1}
+    .btn-primary:hover{box-shadow:0 0 50px rgba(75,142,232,.22),0 14px 36px rgba(75,142,232,.18)}
+    .btn-primary .arrow{transition:transform .4s cubic-bezier(.25,.46,.45,.94);display:inline-block}
+    .btn-primary:hover .arrow{transform:translateX(5px)}
+    .hero-scroll{position:absolute;bottom:2rem;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--text-secondary);display:flex;flex-direction:column;align-items:center;gap:.75rem;opacity:.4}
+    .scroll-arrow{width:1px;height:44px;position:relative;overflow:hidden}
+    .scroll-arrow::after{content:'';position:absolute;top:-100%;left:0;width:1px;height:100%;background:linear-gradient(to bottom,transparent,var(--text-secondary));animation:scrollDown 2.2s ease-in-out infinite}
+    @keyframes scrollDown{0%{top:-100%}100%{top:100%}}
+    .hero .s1{top:12%;left:6%;width:150px;height:150px;color:var(--blue);opacity:.05}
+    .hero .s2{top:20%;right:8%;width:18px;height:18px;color:var(--blue);opacity:.18}
+    .hero .s3{bottom:24%;left:10%;width:90px;color:var(--border);opacity:.18}
+    .hero .s4{bottom:30%;right:9%;width:90px;height:90px;color:var(--blue);opacity:.04}
+    .hero .s5{top:36%;left:3%;width:12px;height:12px;color:var(--blue-bright);opacity:.12}
+    .hero .s6{top:16%;left:42%;width:5px;height:5px;color:var(--blue);opacity:.15}
+    .hero .s7{bottom:18%;right:22%;width:3px;height:3px;color:var(--teal);opacity:.2}
+    .hero .s8{top:50%;right:4%;width:60px;color:var(--border);opacity:.1}
+
+    /* SECTION */
+    .section{padding:clamp(7rem,15vw,13rem) 0;position:relative}
+    .section-divider{width:100%;height:1px;background:var(--border);position:relative;overflow:hidden}
+    .section-divider::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(90deg,transparent,var(--blue),transparent);transform:scaleX(0);transform-origin:left}
+    .section-divider.swept::after{animation:divSweep 1.4s cubic-bezier(.25,.46,.45,.94) forwards}
+    @keyframes divSweep{0%{transform:scaleX(0);opacity:.5}100%{transform:scaleX(1);opacity:0}}
+
+    /* PROBLEM */
+    .problem{background:var(--bg);position:relative;overflow:hidden}
+    .problem-content{max-width:640px}
+    .problem h2{font-family:var(--font-display);font-size:clamp(2.5rem,5.5vw,5rem);line-height:1.08;margin-bottom:2.5rem}
+    .problem h2 em{font-style:normal;color:var(--blue)}
+    .problem p{font-size:clamp(.95rem,1.5vw,1.1rem);color:var(--text-dim);line-height:1.9;margin-bottom:1.25rem;font-weight:300}
+    .problem .stat{display:inline-flex;align-items:baseline;gap:.75rem;margin-top:3rem;padding-top:2.5rem;border-top:1px solid var(--border)}
+    .problem .stat-number{font-family:var(--font-display);font-size:clamp(3.5rem,6vw,5rem);color:var(--blue);line-height:1}
+    .problem .stat-label{font-size:.9rem;color:var(--text-secondary);font-weight:300;max-width:180px;line-height:1.4}
+    .problem .ps1{top:8%;right:6%;width:110px;height:110px;color:var(--blue);opacity:.04}
+    .problem .ps2{bottom:12%;right:12%;width:16px;height:16px;color:var(--blue);opacity:.08}
+
+    /* PRINCIPLE */
+    .principle-section{background:var(--surface);position:relative;overflow:hidden;padding:clamp(5rem,10vw,9rem) 0}
+    .principle-inner{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,7rem);align-items:center}
+    @media(max-width:800px){.principle-inner{grid-template-columns:1fr}}
+    .principle-text .tagline{font-family:var(--font-display);font-size:clamp(1.6rem,3.2vw,2.6rem);line-height:1.22;margin-bottom:1.5rem;color:var(--text)}
+    .principle-text .tagline em{font-style:normal;color:var(--blue)}
+    .principle-text .body{font-size:clamp(.9rem,1.3vw,1rem);color:var(--text-dim);line-height:1.85;font-weight:300;max-width:420px}
+    .principle-steps{margin-top:2rem;display:flex;flex-direction:column;gap:.75rem}
+    .ps-item{display:flex;align-items:flex-start;gap:.85rem;font-size:.88rem;color:var(--text-secondary);font-weight:300;line-height:1.5}
+    .ps-num{font-family:var(--font-display);font-size:1.1rem;color:var(--blue);opacity:.7;min-width:1.2rem}
+    .orthotic-scene-wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:1rem}
+    #orthoticScene{width:100%;max-width:560px;height:auto;overflow:visible}
+    .ortho-replay{display:inline-flex;align-items:center;gap:.4rem;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);border:1px solid rgba(75,142,232,.2);border-radius:100px;padding:.3rem .9rem;background:none;cursor:pointer;transition:border-color .3s,background .3s;margin-top:.25rem}
+    .ortho-replay:hover{border-color:rgba(75,142,232,.5);background:rgba(75,142,232,.05)}
+    .ortho-caption{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--text-secondary);opacity:.4;text-align:center}
+
+    /* HOW IT WORKS */
+    .how-outer{position:relative}
+    .how-header{padding:clamp(5rem,10vw,9rem) 0 3.5rem}
+    .how-header h2{font-family:var(--font-display);font-size:clamp(2.5rem,5.5vw,5rem);line-height:1.08}
+    .how-pin-area{height:100vh;overflow:hidden;position:relative}
+    .how-track{display:flex;width:300%;height:100%}
+    .how-step{width:100vw;height:100%;display:flex;align-items:center;padding:0 clamp(1.5rem,5vw,4rem);position:relative}
+    .how-step-inner{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:auto 1fr;gap:clamp(2rem,5vw,5rem);align-items:center}
+    .step-number{font-family:var(--font-display);font-size:clamp(8rem,18vw,16rem);color:var(--blue);opacity:.1;line-height:1;user-select:none}
+    .step-content h3{font-family:var(--font-display);font-size:clamp(2rem,4vw,3.5rem);margin-bottom:1.25rem;color:var(--blue)}
+    .step-content p{font-size:clamp(.95rem,1.3vw,1.05rem);color:var(--text-dim);line-height:1.9;max-width:440px;font-weight:300}
+    .step-tag{display:inline-block;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--teal);border:1px solid rgba(38,201,168,.2);border-radius:100px;padding:.25rem .75rem;margin-bottom:1rem}
+    .step-accent{position:absolute;bottom:12%;right:8%;width:70px;height:70px;border-radius:50%;border:1px solid var(--blue);opacity:.04}
+    .how-dots{position:fixed;right:2rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:50;opacity:0;transition:opacity .5s}
+    .how-dots.visible{opacity:1}
+    .how-dot{width:6px;height:6px;border-radius:50%;background:var(--text-secondary);opacity:.3;transition:all .4s}
+    .how-dot.active{opacity:1;background:var(--blue);transform:scale(1.4)}
+    .how-punchline-wrap{padding:4rem 0 clamp(7rem,15vw,13rem)}
+    .how-punchline p{font-family:var(--font-display);font-size:clamp(1.4rem,2.8vw,2.4rem);color:var(--text);max-width:660px;line-height:1.35}
+    .how-punchline em{font-style:normal;color:var(--blue);position:relative}
+    .how-punchline em::after{content:'';position:absolute;bottom:-2px;left:0;width:100%;height:1px;background:linear-gradient(90deg,var(--blue),transparent);opacity:.4}
+    @media(max-width:767px){
+      .how-pin-area{height:auto;overflow:visible}
+      .how-track{flex-direction:column;width:100%;height:auto}
+      .how-step{width:100%;height:auto;min-height:auto;padding:3rem clamp(1.5rem,5vw,4rem)}
+      .how-step-inner{grid-template-columns:1fr;gap:0}
+      .step-number{font-size:5rem;margin-bottom:-.5rem;opacity:.16}
+      .step-accent{display:none}
+      .how-dots{display:none}
+    }
+    @media(min-width:768px) and (max-height:680px){
+      .how-pin-area{height:auto;overflow:visible}
+      .how-track{flex-direction:column;width:100%;height:auto}
+      .how-step{width:100%;height:auto;min-height:auto;padding:4rem clamp(1.5rem,5vw,4rem)}
+      .how-dots{display:none}
+    }
+
+    /* BUSINESS MODEL */
+    .biz-model{background:var(--bg);position:relative;overflow:hidden}
+    .biz-model h2{font-family:var(--font-display);font-size:clamp(2.5rem,5.5vw,5rem);line-height:1.08;margin-bottom:1.5rem}
+    .biz-body{font-size:clamp(.95rem,1.3vw,1.05rem);color:var(--text-dim);line-height:1.9;max-width:540px;margin-bottom:4rem;font-weight:300}
+    .model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    @media(max-width:900px){.model-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:580px){.model-grid{grid-template-columns:1fr}}
+    .model-card{padding:2.5rem;border:1px solid var(--border);border-radius:16px;background:rgba(7,9,15,.5);transition:border-color .6s,transform .6s;position:relative;overflow:hidden}
+    .model-card-chosen{border-color:rgba(75,142,232,.3)!important;background:rgba(12,16,33,.8)!important}
+    .model-card-chosen::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue),transparent);opacity:.6}
+    .model-card:hover:not(.model-card-chosen){border-color:rgba(75,142,232,.12);transform:translateY(-3px)}
+    .model-badge{display:inline-block;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;padding:.25rem .75rem;border-radius:100px;margin-bottom:1.25rem;font-weight:500}
+    .model-badge-chosen{background:rgba(75,142,232,.15);color:var(--blue);border:1px solid rgba(75,142,232,.3)}
+    .model-badge-neutral{background:rgba(78,91,128,.08);color:var(--text-secondary);border:1px solid var(--border)}
+    .model-card h3{font-family:var(--font-display);font-size:1.3rem;margin-bottom:.75rem;color:var(--text)}
+    .model-card-chosen h3{color:var(--blue)}
+    .model-desc{font-size:.88rem;color:var(--text-dim);line-height:1.7;font-weight:300;margin-bottom:1.5rem}
+    .model-bullets{list-style:none;display:flex;flex-direction:column;gap:.5rem}
+    .model-bullets li{font-size:.82rem;color:var(--text-secondary);display:flex;align-items:flex-start;gap:.6rem;line-height:1.5}
+    .model-bullets li::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--text-secondary);margin-top:.55rem;flex-shrink:0}
+    .model-card-chosen .model-bullets li::before{background:var(--blue);opacity:.7}
+    .chosen-label{position:absolute;top:1.25rem;right:1.25rem;font-size:.6rem;letter-spacing:.15em;color:var(--teal);opacity:.9;text-transform:uppercase}
+
+    /* MARKET */
+    .market{background:var(--surface);position:relative;overflow:hidden}
+    .market h2{font-family:var(--font-display);font-size:clamp(2rem,4.5vw,3.5rem);line-height:1.15;margin-bottom:1.5rem}
+    .market-body{font-size:clamp(.95rem,1.3vw,1.05rem);color:var(--text-dim);line-height:1.9;max-width:540px;margin-bottom:4rem;font-weight:300}
+    .market-circles{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:4rem}
+    @media(max-width:600px){.market-circles{grid-template-columns:1fr;gap:1.5rem}}
+    .market-circle-card{position:relative;display:flex;flex-direction:column;align-items:center;padding:3rem 1.5rem;text-align:center;border:1px solid var(--border);border-radius:16px;background:rgba(7,9,15,.5);overflow:hidden;transition:border-color .5s,transform .5s}
+    .market-circle-card:hover{border-color:rgba(75,142,232,.2);transform:translateY(-4px)}
+    .market-ring{position:absolute;top:50%;left:50%;border-radius:50%;border:1px solid var(--border);transform:translate(-50%,-50%);pointer-events:none}
+    .market-type{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--text-secondary);margin-bottom:.5rem;font-weight:500}
+    .market-value{font-family:var(--font-display);font-size:clamp(2rem,4vw,3rem);color:var(--blue);line-height:1.1;margin-bottom:.5rem;position:relative;z-index:1}
+    .market-name{font-size:.85rem;color:var(--text);margin-bottom:.75rem;font-weight:400;position:relative;z-index:1}
+    .market-desc{font-size:.72rem;color:var(--text-secondary);line-height:1.6;font-weight:300;position:relative;z-index:1}
+    .market-assumptions{background:rgba(75,142,232,.04);border:1px solid rgba(75,142,232,.08);border-radius:12px;padding:2rem;max-width:640px;margin-top:2rem}
+    .market-assumptions h4{font-family:var(--font-display);font-size:1.1rem;color:var(--text);margin-bottom:1rem}
+    .assumption-item{display:flex;align-items:flex-start;gap:.75rem;font-size:.85rem;color:var(--text-secondary);font-weight:300;line-height:1.5;margin-bottom:.6rem}
+    .assumption-item::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--blue);opacity:.5;flex-shrink:0;margin-top:.52rem}
+
+    /* AUDIENCE */
+    .audience{background:var(--bg);position:relative;overflow:hidden}
+    .audience h2{font-family:var(--font-display);font-size:clamp(2rem,4.5vw,3.5rem);line-height:1.15;margin-bottom:4rem;max-width:620px}
+    .audience-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    @media(max-width:767px){.audience-grid{grid-template-columns:1fr}}
+    .audience-card{padding:2.5rem;border:1px solid var(--border);border-radius:16px;background:rgba(7,9,15,.5);transition:border-color .6s,box-shadow .6s,transform .6s cubic-bezier(.25,.46,.45,.94);position:relative;overflow:hidden}
+    .audience-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue),transparent);opacity:0;transition:opacity .6s}
+    .audience-card:hover{border-color:rgba(75,142,232,.2);box-shadow:0 12px 48px rgba(0,0,0,.35);transform:translateY(-6px)}
+    .audience-card:hover::before{opacity:.4}
+    .audience-card .card-icon{width:36px;height:36px;border-radius:10px;border:1px solid rgba(75,142,232,.2);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;color:var(--blue);transition:border-color .5s,background .5s}
+    .audience-card:hover .card-icon{border-color:rgba(75,142,232,.4);background:rgba(75,142,232,.06)}
+    .audience-card .card-label{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--blue);font-weight:500;margin-bottom:1.25rem}
+    .audience-card h3{font-family:var(--font-display);font-size:1.35rem;margin-bottom:1rem}
+    .audience-card p{font-size:.92rem;color:var(--text-dim);line-height:1.8;font-weight:300}
+
+    /* FINANCIAL */
+    .financial{background:var(--surface);position:relative;overflow:hidden}
+    .financial h2{font-family:var(--font-display);font-size:clamp(2rem,4.5vw,3.5rem);line-height:1.15;margin-bottom:1.5rem}
+    .financial-body{font-size:clamp(.95rem,1.3vw,1.05rem);color:var(--text-dim);line-height:1.9;max-width:540px;margin-bottom:4rem;font-weight:300}
+    .financial-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:3rem}
+    @media(max-width:700px){.financial-grid{grid-template-columns:1fr;gap:1.5rem}}
+    .fin-card{padding:2.5rem;border:1px solid var(--border);border-radius:16px;background:rgba(7,9,15,.5);position:relative;overflow:hidden;transition:border-color .5s,transform .5s}
+    .fin-card:hover{border-color:rgba(75,142,232,.2);transform:translateY(-3px)}
+    .fin-year{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--text-secondary);font-weight:500;margin-bottom:1rem}
+    .fin-revenue{font-family:var(--font-display);font-size:clamp(1.8rem,3.5vw,2.8rem);color:var(--blue);line-height:1.1;margin-bottom:.5rem}
+    .fin-clinics{font-size:.85rem;color:var(--text-dim);margin-bottom:1.5rem;font-weight:300}
+    .fin-bar-bg{width:100%;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+    .fin-bar{height:100%;background:linear-gradient(90deg,var(--blue),var(--teal));border-radius:2px;width:0%;transition:width 1.5s cubic-bezier(.25,.46,.45,.94)}
+    .fin-note{font-size:.72rem;color:var(--text-secondary);margin-top:1rem;font-weight:300;line-height:1.5}
+    .sub-note{display:flex;align-items:flex-start;gap:.75rem;padding:1.5rem;border:1px solid rgba(75,142,232,.1);border-radius:12px;background:rgba(75,142,232,.04);max-width:480px}
+    .sub-note-icon{width:32px;height:32px;border-radius:8px;background:rgba(75,142,232,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--blue);font-size:.9rem}
+    .sub-note-text{font-size:.85rem;color:var(--text-secondary);font-weight:300;line-height:1.6}
+    .sub-note-text strong{color:var(--text);font-weight:500}
+
+    /* RISK */
+    .risk{background:var(--bg);position:relative;overflow:hidden}
+    .risk h2{font-family:var(--font-display);font-size:clamp(2rem,4.5vw,3.5rem);line-height:1.15;margin-bottom:4rem;max-width:620px}
+    .risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:3rem}
+    @media(max-width:900px){.risk-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:600px){.risk-grid{grid-template-columns:1fr}}
+    .risk-card{padding:2.5rem;border:1px solid var(--border);border-radius:16px;background:rgba(7,9,15,.5);position:relative;transition:border-color .5s,transform .5s}
+    .risk-card:hover{border-color:rgba(75,142,232,.15);transform:translateY(-3px)}
+    .risk-badges{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+    .rbadge{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;padding:.2rem .65rem;border-radius:100px;font-weight:500}
+    .rbadge-orange{background:rgba(212,144,58,.12);color:#D4903A;border:1px solid rgba(212,144,58,.2)}
+    .rbadge-green{background:rgba(38,201,168,.1);color:var(--teal);border:1px solid rgba(38,201,168,.2)}
+    .rbadge-red{background:rgba(232,74,74,.1);color:#E84A4A;border:1px solid rgba(232,74,74,.2)}
+    .risk-card h3{font-family:var(--font-display);font-size:1.2rem;margin-bottom:.75rem;color:var(--text)}
+    .risk-desc{font-size:.88rem;color:var(--text-dim);line-height:1.7;font-weight:300;margin-bottom:1.5rem}
+    .risk-mitigation{border-top:1px solid var(--border);padding-top:1rem}
+    .risk-mit-label{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem;font-weight:500}
+    .risk-mit-item{font-size:.8rem;color:var(--text-secondary);display:flex;align-items:flex-start;gap:.5rem;font-weight:300;line-height:1.4;margin-bottom:.35rem}
+    .risk-mit-item::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--teal);opacity:.5;flex-shrink:0;margin-top:.42rem}
+    .risk-insight{padding:1.5rem;border:1px solid rgba(38,201,168,.15);border-radius:12px;background:rgba(38,201,168,.04);max-width:640px}
+    .risk-insight p{font-size:.9rem;color:var(--text-dim);line-height:1.7;font-weight:300}
+    .risk-insight strong{color:var(--teal)}
+
+    /* FOUNDERS */
+    .founders-section{background:var(--surface);position:relative;overflow:hidden}
+    .founders-section h2{font-family:var(--font-display);font-size:clamp(2rem,4.5vw,3.5rem);line-height:1.15;margin-bottom:.5rem}
+    .founders-sub{font-size:clamp(.95rem,1.3vw,1rem);color:var(--text-dim);line-height:1.9;max-width:540px;margin-bottom:4rem;font-weight:300}
+    .founders-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem)}
+    @media(max-width:767px){.founders-grid{grid-template-columns:1fr;gap:3rem}}
+    .founder-card{display:flex;flex-direction:column;gap:0}
+    .founder-top{display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:1.75rem}
+    .founder-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#121830 0%,#1A2240 100%);border:1px solid rgba(75,142,232,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden}
+    .founder-avatar::after{content:'';position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(75,142,232,.07) 0%,transparent 65%)}
+    .founder-initials{font-family:var(--font-display);font-size:1.6rem;color:var(--blue);opacity:.5;letter-spacing:-.03em;position:relative;z-index:1}
+    .founder-meta{flex:1}
+    .founder-name{font-family:var(--font-display);font-size:clamp(1.3rem,2.5vw,1.8rem);margin-bottom:.3rem;color:var(--text)}
+    .founder-role{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:0;opacity:.8}
+    .founder-quote{font-family:var(--font-display);font-size:clamp(.92rem,1.4vw,1.1rem);color:var(--text-dim);line-height:1.6;margin-bottom:1.75rem;padding-left:1.25rem;border-left:2px solid rgba(75,142,232,.3);font-style:italic}
+    .founder-trust{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.25rem}
+    .founder-trust-item{display:flex;align-items:flex-start;gap:.75rem;font-size:.83rem;color:var(--text-secondary);font-weight:300;line-height:1.4}
+    .founder-trust-item::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--blue);opacity:.55;flex-shrink:0;margin-top:.45rem}
+    .founder-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:1rem}
+    .founder-tag{font-size:.6rem;letter-spacing:.1em;color:var(--text-secondary);border:1px solid var(--border);border-radius:100px;padding:.18rem .65rem;text-transform:uppercase}
+    .founders-bridge{text-align:center;margin-top:4rem;padding-top:3rem;border-top:1px solid var(--border)}
+    .founders-bridge p{font-family:var(--font-display);font-size:clamp(1.1rem,1.8vw,1.5rem);color:var(--text-dim);line-height:1.5;max-width:640px;margin:0 auto}
+    .founders-bridge em{font-style:normal;color:var(--blue)}
+
+    /* CREDIBILITY STRIP */
+    .cred-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:5rem;padding-top:4rem;border-top:1px solid var(--border)}
+    @media(max-width:600px){.cred-strip{grid-template-columns:1fr;gap:2rem}}
+    .cred-stat{display:flex;flex-direction:column;padding-left:1.5rem;border-left:1px solid var(--border);transition:border-color .5s}
+    .cred-stat:hover{border-left-color:rgba(75,142,232,.5)}
+    .cred-number{font-family:var(--font-display);font-size:clamp(2.5rem,4.5vw,3.5rem);color:var(--blue);line-height:1.1}
+    .cred-label{font-size:.8rem;color:var(--text-secondary);margin-top:.5rem;font-weight:300}
+
+    /* CTA */
+    .cta-section{background:var(--bg);text-align:center;padding:clamp(9rem,20vw,16rem) 0;position:relative;overflow:hidden}
+    .cta-section h2{font-family:var(--font-display);font-size:clamp(2.5rem,6.5vw,6rem);line-height:1.06;margin-bottom:1.5rem}
+    .cta-sub{font-size:clamp(.9rem,1.3vw,1rem);color:var(--text-secondary);margin-bottom:3rem;max-width:380px;margin-left:auto;margin-right:auto;font-weight:300;line-height:1.75}
+    .cta-form{display:flex;gap:.5rem;position:relative;z-index:1}
+    .cta-form input[type="email"]{flex:1;padding:.9rem 1.4rem;background:var(--surface);border:1px solid var(--border);border-radius:100px;color:var(--text);font-family:var(--font-body);font-size:.9rem;outline:none;transition:border-color .5s,box-shadow .5s}
+    .cta-form input::placeholder{color:var(--text-secondary);font-weight:300}
+    .cta-form input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(75,142,232,.08)}
+    .cta-form-wrap{position:relative;max-width:440px;margin:0 auto 1.5rem}
+    .cta-form-glow{position:absolute;inset:-20px;background:radial-gradient(ellipse at center,rgba(75,142,232,.06) 0%,transparent 70%);border-radius:50%;pointer-events:none;opacity:0;transition:opacity .8s}
+    .cta-form-wrap:focus-within .cta-form-glow{opacity:1}
+    .cta-form button{padding:.9rem 1.9rem;background:var(--blue);color:var(--bg);border:none;border-radius:100px;font-family:var(--font-body);font-size:.9rem;font-weight:500;cursor:pointer;transition:all .5s cubic-bezier(.25,.46,.45,.94);white-space:nowrap;position:relative;overflow:hidden}
+    .cta-form button::after{content:'';position:absolute;inset:0;border-radius:100px;background:linear-gradient(135deg,rgba(255,255,255,.18) 0%,transparent 50%);opacity:0;transition:opacity .5s}
+    .cta-form button:hover{box-shadow:0 0 50px rgba(75,142,232,.2),0 12px 32px rgba(75,142,232,.15)}
+    .cta-form button:hover::after{opacity:1}
+    .cta-fine{font-size:.7rem;color:var(--text-secondary);opacity:.4;font-weight:300}
+    .cta-contact{margin-top:3rem;display:flex;flex-direction:column;gap:.4rem;align-items:center}
+    .cta-contact a{font-size:.82rem;color:var(--text-secondary);transition:color .3s;opacity:.7}
+    .cta-contact a:hover{color:var(--blue);opacity:1}
+    .cta-location{font-size:.75rem;color:var(--text-secondary);opacity:.4;margin-top:.25rem;letter-spacing:.05em}
+    .cta-section .cs1{top:12%;left:6%;width:130px;height:130px;color:var(--blue);opacity:.04}
+    .cta-section .cs2{bottom:18%;right:8%;width:14px;height:14px;color:var(--blue-bright);opacity:.12}
+    .cta-section .cs3{top:28%;right:12%;width:70px;color:var(--border);opacity:.12}
+    .cta-section .cs4{bottom:25%;left:15%;width:50px;height:50px;color:var(--blue);opacity:.04}
+    @media(max-width:500px){.cta-form{flex-direction:column}}
+
+    /* FOOTER */
+    footer{padding:4rem 0 3rem;border-top:1px solid var(--border);text-align:center;position:relative}
+    .footer-grid{position:absolute;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:1200px;height:100%;display:grid;grid-template-columns:repeat(4,1fr);pointer-events:none}
+    .footer-grid span{border-left:1px solid rgba(255,255,255,.02)}
+    .footer-grid span:last-child{border-right:1px solid rgba(255,255,255,.02)}
+    .footer-brand{font-size:.75rem;color:var(--text-secondary);font-weight:300;letter-spacing:.03em;position:relative;z-index:2}
+    .back-to-top{display:inline-flex;align-items:center;gap:.5rem;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--text-secondary);opacity:.35;transition:opacity .4s,color .4s;margin-bottom:2rem;cursor:pointer;position:relative;z-index:2}
+    .back-to-top:hover{opacity:.7;color:var(--blue)}
+    .back-to-top .top-arrow{display:inline-block;width:1px;height:16px;background:currentColor;position:relative}
+    .back-to-top .top-arrow::before{content:'';position:absolute;top:0;left:-3px;width:7px;height:7px;border-top:1px solid currentColor;border-left:1px solid currentColor;transform:rotate(45deg)}
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(50px)}
+    .reveal-children>*{opacity:0;transform:translateY(30px)}
+
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+      .reveal,.reveal-children>*{opacity:1;transform:none}
+      .hero-line .line-inner{transform:none!important;opacity:1!important}
+      .hero-label-inner{transform:none!important;opacity:1!important}
+      .scroll-arrow::after{animation:none}
+      .grain,.cursor-glow,.scroll-progress,.orb{display:none}
+      .section-divider::after{display:none}
+      .loader{display:none}
+      .how-pin-area{height:auto;overflow:visible}
+      .how-track{flex-direction:column;width:100%;height:auto}
+      .how-step{width:100%;height:auto;padding:3rem clamp(1.5rem,5vw,4rem)}
+    }
+  </style>
+</head>
+<body class="loading">
+
+  <div class="loader" aria-hidden="true">
+    <span class="loader-text">Next-Gen Orthotic</span>
+    <div class="loader-bar"></div>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="orb orb-1" aria-hidden="true"></div>
+  <div class="orb orb-2" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"></div>
+  <div class="how-dots" aria-hidden="true">
+    <div class="how-dot active"></div>
+    <div class="how-dot"></div>
+    <div class="how-dot"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <a href="#" class="nav-logo">
+        <svg class="nav-logo-icon" viewBox="0 0 80 80" width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="40" cy="42" rx="26" ry="20" stroke="#4B8EE8" stroke-width="1.8" fill="none"/>
+          <ellipse cx="40" cy="42" rx="18" ry="13" stroke="#4B8EE8" stroke-width="0.8" fill="none" opacity="0.35"/>
+          <circle cx="30" cy="38" r="3.5" fill="#26C9A8"/>
+          <circle cx="42" cy="34" r="3.5" fill="#26C9A8"/>
+          <circle cx="53" cy="42" r="3.5" fill="#26C9A8"/>
+          <circle cx="40" cy="50" r="3.5" fill="#26C9A8"/>
+          <line x1="30" y1="38" x2="42" y2="34" stroke="#4B8EE8" stroke-width="1" opacity="0.5"/>
+          <line x1="42" y1="34" x2="53" y2="42" stroke="#4B8EE8" stroke-width="1" opacity="0.5"/>
+          <line x1="30" y1="38" x2="40" y2="50" stroke="#4B8EE8" stroke-width="1" opacity="0.5"/>
+          <line x1="53" y1="42" x2="40" y2="50" stroke="#4B8EE8" stroke-width="1" opacity="0.5"/>
+          <line x1="42" y1="34" x2="40" y2="50" stroke="#4B8EE8" stroke-width="0.7" opacity="0.3"/>
+        </svg>
+        <span class="nav-logo-text">Next-Gen Orthotic</span>
+      </a>
+      <a href="#early-access" class="nav-cta">Get Early Access</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="shape shape-circle s1" aria-hidden="true"></div>
+    <div class="shape shape-plus s2" aria-hidden="true"></div>
+    <div class="shape shape-line s3" aria-hidden="true"></div>
+    <div class="shape shape-ring s4" aria-hidden="true"></div>
+    <div class="shape shape-plus s5" aria-hidden="true"></div>
+    <div class="shape shape-dot s6" aria-hidden="true"></div>
+    <div class="shape shape-dot s7" aria-hidden="true"></div>
+    <div class="shape shape-line s8" aria-hidden="true"></div>
+    <span class="hero-label"><span class="hero-label-inner">Biomechanical Intelligence Platform</span></span>
+    <div class="hero-lines">
+      <span class="hero-line"><span class="line-inner">Scan.</span></span>
+      <span class="hero-line"><span class="line-inner">Design.</span></span>
+      <span class="hero-line"><span class="line-inner">Fabricate.</span></span>
+    </div>
+    <p class="hero-sub">AI-powered orthotic design for clinical excellence.<br>From patient biomechanics to precision-fit orthotic — without the manual guesswork.</p>
+    <div class="btn-magnetic">
+      <a href="#early-access" class="btn-primary">
+        Request Early Access <span class="arrow">&rarr;</span>
+      </a>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span>Scroll to discover</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <div class="section-divider"></div>
+  <section class="section problem">
+    <div class="shape shape-circle ps1" aria-hidden="true"></div>
+    <div class="shape shape-plus ps2" aria-hidden="true"></div>
+    <div class="container">
+      <div class="problem-content reveal-children">
+        <span class="label">The Problem</span>
+        <h2>Custom orthotics are still made <em>by hand.</em></h2>
+        <p>Clinicians spend hours on manual casting, foam-box impressions, and subjective assessments. Each patient requires an entirely new workflow — time-consuming, inconsistent, and dependent on practitioner experience.</p>
+        <p>The result: costly delays, variable outcomes, and clinical staff stretched thin doing data entry instead of delivering care. In a world of precision medicine, orthotic design is stuck in the past.</p>
+        <div class="stat">
+          <span class="stat-number" data-target="8">0</span>
+          <span class="stat-label">hours per custom orthotic under current workflows</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLATFORM PRINCIPLE -->
+  <div class="section-divider"></div>
+  <section class="principle-section reveal">
+    <div class="container">
+      <div class="principle-inner">
+        <div class="principle-text">
+          <span class="label">The Platform</span>
+          <p class="tagline">Like a <em>digital twin</em> of every patient's biomechanics.</p>
+          <p class="body">Capture 3D scan data, feed it through our ML pipeline, and generate a precision-matched parametric model — in minutes. Then send directly to our fabrication network. One platform. Every patient. Perfect fit.</p>
+          <div class="principle-steps">
+            <div class="ps-item"><span class="ps-num">1</span>Patient scan data captured and uploaded to the platform</div>
+            <div class="ps-item"><span class="ps-num">2</span>ML engine analyzes gait patterns and pressure distribution</div>
+            <div class="ps-item"><span class="ps-num">3</span>Parametric orthotic model generated and sent to fabrication</div>
+          </div>
+        </div>
+        <div class="orthotic-scene-wrap">
+          <svg id="orthoticScene" viewBox="0 0 560 260" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animation: Biomechanical scan generating parametric orthotic model">
+            <defs>
+              <linearGradient id="scanGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#4B8EE8" stop-opacity="0"/>
+                <stop offset="50%" stop-color="#4B8EE8" stop-opacity="0.9"/>
+                <stop offset="100%" stop-color="#4B8EE8" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="insoleFillGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#4B8EE8" stop-opacity="0.12"/>
+                <stop offset="60%" stop-color="#26C9A8" stop-opacity="0.06"/>
+                <stop offset="100%" stop-color="#4B8EE8" stop-opacity="0.04"/>
+              </linearGradient>
+              <radialGradient id="heelPressGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#4B8EE8" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#4B8EE8" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="ballPressGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#26C9A8" stop-opacity="0.28"/>
+                <stop offset="100%" stop-color="#26C9A8" stop-opacity="0"/>
+              </radialGradient>
+              <filter id="nodeGlow" x="-60%" y="-60%" width="220%" height="220%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="scanGlow" x="-100%" y="-10%" width="300%" height="120%">
+                <feGaussianBlur stdDeviation="4" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+
+            <!-- Background grid -->
+            <g opacity="0.04" stroke="#4B8EE8" stroke-width="0.5">
+              <line x1="0" y1="65" x2="560" y2="65"/>
+              <line x1="0" y1="130" x2="560" y2="130"/>
+              <line x1="0" y1="195" x2="560" y2="195"/>
+              <line x1="112" y1="0" x2="112" y2="260"/>
+              <line x1="224" y1="0" x2="224" y2="260"/>
+              <line x1="336" y1="0" x2="336" y2="260"/>
+              <line x1="448" y1="0" x2="448" y2="260"/>
+            </g>
+
+            <!-- System label -->
+            <text x="280" y="18" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7.5" font-weight="500" letter-spacing="3" fill="#4E5B80" opacity="0.8">BIOMECHANICAL ANALYSIS SYSTEM v2.3</text>
+
+            <!-- Insole fill (fades in after mesh) -->
+            <path id="insoleFill"
+              d="M 165 128 Q 178 90 215 78 Q 255 62 300 60 Q 345 60 378 76 Q 410 96 413 128 Q 413 162 380 178 Q 345 196 300 198 Q 255 198 218 186 Q 182 170 168 148 Q 158 138 165 128 Z"
+              fill="url(#insoleFillGrad)" opacity="0"/>
+
+            <!-- Insole outline (draws in) -->
+            <path id="insoleOutline"
+              d="M 165 128 Q 178 90 215 78 Q 255 62 300 60 Q 345 60 378 76 Q 410 96 413 128 Q 413 162 380 178 Q 345 196 300 198 Q 255 198 218 186 Q 182 170 168 148 Q 158 138 165 128 Z"
+              stroke="#4B8EE8" stroke-width="1.5" fill="none"
+              stroke-dasharray="900" stroke-dashoffset="900"/>
+
+            <!-- Mesh lines — upper chain -->
+            <path class="meshLine" d="M 200,128 L 228,100" pathLength="100" stroke="#4B8EE8" stroke-width="0.7" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.45"/>
+            <path class="meshLine" d="M 228,100 L 260,82" pathLength="100" stroke="#4B8EE8" stroke-width="0.7" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.45"/>
+            <path class="meshLine" d="M 260,82 L 295,76" pathLength="100" stroke="#4B8EE8" stroke-width="0.7" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.45"/>
+            <path class="meshLine" d="M 295,76 L 330,76" pathLength="100" stroke="#4B8EE8" stroke-width="0.7" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.45"/>
+            <path class="meshLine" d="M 330,76 L 362,94" pathLength="100" stroke="#4B8EE8" stroke-width="0.7" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.45"/>
+            <path class="meshLine" d="M 362,94 L 395,128" pathLength="100" stroke="#4B8EE8" stroke-width="0.7" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.45"/>
+            <!-- lower chain -->
+            <path class="meshLine" d="M 200,128 L 228,158" pathLength="100" stroke="#4B8EE8" stroke-width="0.7" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.45"/>
+            <path class="meshLine" d="M 228,158 L 260,168" pathLength="100" stroke="#4B8EE8" stroke-width="0.7" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.45"/>
+            <path class="meshLine" d="M 260,168 L 295,174" pathLength="100" stroke="#4B8EE8" stroke-width="0.7" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.45"/>
+            <path class="meshLine" d="M 295,174 L 330,178" pathLength="100" stroke="#4B8EE8" stroke-width="0.7" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.45"/>
+            <path class="meshLine" d="M 330,178 L 362,162" pathLength="100" stroke="#4B8EE8" stroke-width="0.7" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.45"/>
+            <path class="meshLine" d="M 362,162 L 395,128" pathLength="100" stroke="#4B8EE8" stroke-width="0.7" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.45"/>
+            <!-- cross connections -->
+            <path class="meshLine" d="M 228,100 L 228,158" pathLength="100" stroke="#4B8EE8" stroke-width="0.5" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.3"/>
+            <path class="meshLine" d="M 260,82 L 260,168" pathLength="100" stroke="#4B8EE8" stroke-width="0.5" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.3"/>
+            <path class="meshLine" d="M 295,76 L 295,174" pathLength="100" stroke="#4B8EE8" stroke-width="0.5" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.3"/>
+            <path class="meshLine" d="M 330,76 L 330,178" pathLength="100" stroke="#4B8EE8" stroke-width="0.5" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.3"/>
+            <path class="meshLine" d="M 362,94 L 362,162" pathLength="100" stroke="#4B8EE8" stroke-width="0.5" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.3"/>
+            <!-- diagonals -->
+            <path class="meshLine" d="M 228,100 L 260,168" pathLength="100" stroke="#26C9A8" stroke-width="0.4" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.2"/>
+            <path class="meshLine" d="M 260,82 L 295,174" pathLength="100" stroke="#26C9A8" stroke-width="0.4" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.2"/>
+            <path class="meshLine" d="M 295,76 L 330,178" pathLength="100" stroke="#26C9A8" stroke-width="0.4" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.2"/>
+            <path class="meshLine" d="M 330,76 L 362,162" pathLength="100" stroke="#26C9A8" stroke-width="0.4" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.2"/>
+            <path class="meshLine" d="M 228,158 L 260,82" pathLength="100" stroke="#26C9A8" stroke-width="0.4" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.2"/>
+            <path class="meshLine" d="M 260,168 L 295,76" pathLength="100" stroke="#26C9A8" stroke-width="0.4" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.2"/>
+            <path class="meshLine" d="M 295,174 L 330,76" pathLength="100" stroke="#26C9A8" stroke-width="0.4" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.2"/>
+            <path class="meshLine" d="M 330,178 L 362,94" pathLength="100" stroke="#26C9A8" stroke-width="0.4" stroke-dasharray="100" stroke-dashoffset="100" fill="none" opacity="0.2"/>
+
+            <!-- Pressure zones -->
+            <ellipse class="pressureZone" cx="200" cy="128" rx="32" ry="26" fill="url(#heelPressGrad)" opacity="0"/>
+            <ellipse class="pressureZone" cx="390" cy="128" rx="22" ry="30" fill="url(#ballPressGrad)" opacity="0"/>
+
+            <!-- Zone labels -->
+            <text id="labelHeel" x="162" y="245" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7.5" letter-spacing="1.8" fill="#4B8EE8" opacity="0">HEEL LOAD</text>
+            <text id="labelBall" x="395" y="245" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7.5" letter-spacing="1.8" fill="#26C9A8" opacity="0">METATARSAL</text>
+
+            <!-- Data nodes (12 points) -->
+            <g class="orthoNode" style="opacity:0">
+              <circle cx="200" cy="128" r="5.5" fill="#4B8EE8" filter="url(#nodeGlow)" opacity="0.6"/>
+              <circle cx="200" cy="128" r="2.5" fill="#26C9A8"/>
+            </g>
+            <g class="orthoNode" style="opacity:0">
+              <circle cx="228" cy="100" r="4.5" fill="#4B8EE8" filter="url(#nodeGlow)" opacity="0.6"/>
+              <circle cx="228" cy="100" r="2" fill="#26C9A8"/>
+            </g>
+            <g class="orthoNode" style="opacity:0">
+              <circle cx="228" cy="158" r="4.5" fill="#4B8EE8" filter="url(#nodeGlow)" opacity="0.6"/>
+              <circle cx="228" cy="158" r="2" fill="#26C9A8"/>
+            </g>
+            <g class="orthoNode" style="opacity:0">
+              <circle cx="260" cy="82" r="4.5" fill="#4B8EE8" filter="url(#nodeGlow)" opacity="0.6"/>
+              <circle cx="260" cy="82" r="2" fill="#26C9A8"/>
+            </g>
+            <g class="orthoNode" style="opacity:0">
+              <circle cx="260" cy="168" r="4.5" fill="#4B8EE8" filter="url(#nodeGlow)" opacity="0.6"/>
+              <circle cx="260" cy="168" r="2" fill="#26C9A8"/>
+            </g>
+            <g class="orthoNode" style="opacity:0">
+              <circle cx="295" cy="76" r="4.5" fill="#4B8EE8" filter="url(#nodeGlow)" opacity="0.6"/>
+              <circle cx="295" cy="76" r="2" fill="#26C9A8"/>
+            </g>
+            <g class="orthoNode" style="opacity:0">
+              <circle cx="295" cy="174" r="4.5" fill="#4B8EE8" filter="url(#nodeGlow)" opacity="0.6"/>
+              <circle cx="295" cy="174" r="2" fill="#26C9A8"/>
+            </g>
+            <g class="orthoNode" style="opacity:0">
+              <circle cx="330" cy="76" r="4.5" fill="#4B8EE8" filter="url(#nodeGlow)" opacity="0.6"/>
+              <circle cx="330" cy="76" r="2" fill="#26C9A8"/>
+            </g>
+            <g class="orthoNode" style="opacity:0">
+              <circle cx="330" cy="178" r="4.5" fill="#4B8EE8" filter="url(#nodeGlow)" opacity="0.6"/>
+              <circle cx="330" cy="178" r="2" fill="#26C9A8"/>
+            </g>
+            <g class="orthoNode" style="opacity:0">
+              <circle cx="362" cy="94" r="4.5" fill="#4B8EE8" filter="url(#nodeGlow)" opacity="0.6"/>
+              <circle cx="362" cy="94" r="2" fill="#26C9A8"/>
+            </g>
+            <g class="orthoNode" style="opacity:0">
+              <circle cx="362" cy="162" r="4.5" fill="#4B8EE8" filter="url(#nodeGlow)" opacity="0.6"/>
+              <circle cx="362" cy="162" r="2" fill="#26C9A8"/>
+            </g>
+            <g class="orthoNode" style="opacity:0">
+              <circle cx="395" cy="128" r="5.5" fill="#4B8EE8" filter="url(#nodeGlow)" opacity="0.6"/>
+              <circle cx="395" cy="128" r="2.5" fill="#26C9A8"/>
+            </g>
+
+            <!-- Scanner bar group -->
+            <g id="scanBarGroup">
+              <rect x="143" y="35" width="16" height="196" fill="url(#scanGrad)" filter="url(#scanGlow)" opacity="0.7"/>
+              <line x1="151" y1="35" x2="151" y2="231" stroke="#6BAAFF" stroke-width="0.8" opacity="0.6"/>
+            </g>
+            <!-- Scan status -->
+            <text id="scanStatusText" x="280" y="245" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8" letter-spacing="2.5" fill="#4B8EE8" opacity="0">SCANNING BIOMECHANICS...</text>
+
+            <!-- Success indicator -->
+            <g id="orthoSuccess" opacity="0">
+              <circle cx="280" cy="233" r="13" fill="#26C9A8" opacity="0.12"/>
+              <path d="M 274 233 L 279 238 L 287 227" stroke="#26C9A8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <text x="305" y="237" font-family="'DM Sans',sans-serif" font-size="8.5" letter-spacing="2" fill="#26C9A8" opacity="0.8">MODEL GENERATED</text>
+            </g>
+          </svg>
+          <p class="ortho-caption">Parametric insole mesh · Pressure distribution · Digital fabrication</p>
+          <button class="ortho-replay" onclick="replayOrtho()">&#8635; Replay</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <div class="section-divider"></div>
+  <div class="how-outer">
+    <div class="container how-header reveal">
+      <span class="label">How It Works</span>
+      <h2>Three Steps.<br>One Platform.</h2>
+    </div>
+    <div class="how-pin-area">
+      <div class="how-track">
+        <div class="how-step">
+          <div class="how-step-inner">
+            <span class="step-number">01</span>
+            <div class="step-content">
+              <span class="step-tag">Capture</span>
+              <h3>Scan</h3>
+              <p>Upload 3D scan data, pressure plate readings, or gait analysis. Our platform ingests any biomechanical data format — no proprietary hardware required.</p>
+            </div>
+          </div>
+          <div class="step-accent" aria-hidden="true"></div>
+        </div>
+        <div class="how-step">
+          <div class="how-step-inner">
+            <span class="step-number">02</span>
+            <div class="step-content">
+              <span class="step-tag">Analyze</span>
+              <h3>Design</h3>
+              <p>Our ML engine analyzes gait patterns, pressure distribution, and patient history to generate a precision parametric orthotic model — in minutes, not hours.</p>
+            </div>
+          </div>
+          <div class="step-accent" aria-hidden="true"></div>
+        </div>
+        <div class="how-step">
+          <div class="how-step-inner">
+            <span class="step-number">03</span>
+            <div class="step-content">
+              <span class="step-tag">Produce</span>
+              <h3>Fabricate</h3>
+              <p>Send the design directly to our distributed fabrication network. Clinics receive a precision-manufactured orthotic in days — ready to fit, ready to deliver results.</p>
+            </div>
+          </div>
+          <div class="step-accent" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+    <div class="how-punchline-wrap">
+      <div class="container how-punchline reveal">
+        <p>What used to take 8 hours of manual work now takes<br><em>less than 15 minutes</em> on the platform.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUSINESS MODEL -->
+  <div class="section-divider"></div>
+  <section class="section biz-model">
+    <div class="container">
+      <div class="reveal">
+        <span class="label">Business Model</span>
+        <h2>Built for scale.<br>Designed for clinics.</h2>
+        <p class="biz-body">We evaluated three go-to-market approaches and selected the hybrid model as the optimal balance between clinical adoption, revenue scalability, and operational complexity.</p>
+      </div>
+      <div class="model-grid">
+        <div class="model-card reveal">
+          <span class="model-badge model-badge-neutral">Option 1</span>
+          <h3>SaaS Only</h3>
+          <p class="model-desc">Clinics subscribe to our design software and manage their own fabrication workflow independently.</p>
+          <ul class="model-bullets">
+            <li>Recurring, predictable revenue</li>
+            <li>High feasibility, low complexity</li>
+            <li>Weak differentiation from competitors</li>
+            <li>Lower revenue ceiling</li>
+          </ul>
+        </div>
+        <div class="model-card reveal">
+          <span class="model-badge model-badge-neutral">Option 2</span>
+          <h3>Full Service</h3>
+          <p class="model-desc">End-to-end turnkey solution: data capture, design, manufacturing, and logistics all managed by us.</p>
+          <ul class="model-bullets">
+            <li>Strong differentiation</li>
+            <li>High full value-chain revenue</li>
+            <li>Complex logistics and scaling</li>
+            <li>High operational risk</li>
+          </ul>
+        </div>
+        <div class="model-card model-card-chosen reveal">
+          <span class="chosen-label">✓ Chosen</span>
+          <span class="model-badge model-badge-chosen">Option 3 — Hybrid</span>
+          <h3>SaaS + Fabrication</h3>
+          <p class="model-desc">Platform subscription for design tools, with optional fabrication through our distributed production network.</p>
+          <ul class="model-bullets">
+            <li>Flexible adoption for clinics</li>
+            <li>Recurring + transactional revenue</li>
+            <li>Scalable through distributed network</li>
+            <li>Moderate, manageable risk</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKET SIZE -->
+  <div class="section-divider"></div>
+  <section class="section market">
+    <div class="container">
+      <div class="reveal">
+        <span class="label">Market Opportunity</span>
+        <h2>A $4–5B market<br>ready for disruption.</h2>
+        <p class="market-body">The global orthotics market is driven by aging populations, rising sports injuries, and a clear shift toward personalized healthcare. Digital adoption is accelerating — and clinical workflows haven't caught up yet.</p>
+      </div>
+      <div class="market-circles reveal-children">
+        <div class="market-circle-card">
+          <div class="market-ring" style="width:200px;height:200px;opacity:.06"></div>
+          <div class="market-ring" style="width:140px;height:140px;opacity:.05"></div>
+          <div class="market-ring" style="width:80px;height:80px;opacity:.07"></div>
+          <p class="market-type">TAM</p>
+          <p class="market-value" data-target="4">0</p>
+          <p class="market-name">Total Addressable Market</p>
+          <p class="market-desc">$4–5B global orthotics market including custom and prefabricated solutions</p>
+        </div>
+        <div class="market-circle-card">
+          <div class="market-ring" style="width:170px;height:170px;opacity:.06"></div>
+          <div class="market-ring" style="width:110px;height:110px;opacity:.05"></div>
+          <div class="market-ring" style="width:60px;height:60px;opacity:.07"></div>
+          <p class="market-type">SAM</p>
+          <p class="market-value">€400M</p>
+          <p class="market-name">Serviceable Available Market</p>
+          <p class="market-desc">100K European clinics at an estimated €3,000–5,000 annual value per clinic</p>
+        </div>
+        <div class="market-circle-card">
+          <div class="market-ring" style="width:130px;height:130px;opacity:.06"></div>
+          <div class="market-ring" style="width:80px;height:80px;opacity:.05"></div>
+          <div class="market-ring" style="width:40px;height:40px;opacity:.08"></div>
+          <p class="market-type">SOM</p>
+          <p class="market-value">€500K</p>
+          <p class="market-name">Serviceable Obtainable Market</p>
+          <p class="market-desc">Initial realistic target of 50–100 clinics within 2–3 years of launch</p>
+        </div>
+      </div>
+      <div class="market-assumptions reveal">
+        <h4>Key Market Assumptions</h4>
+        <div class="assumption-item">Digital adoption: clinics are willing to transition from legacy manual methods to AI-powered tools</div>
+        <div class="assumption-item">Pricing alignment: subscription model aligns with existing clinic revenue structures</div>
+        <div class="assumption-item">Efficiency drives adoption: early uptake is led by significant workflow time savings</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TARGET AUDIENCE -->
+  <div class="section-divider"></div>
+  <section class="section audience">
+    <div class="container">
+      <div class="reveal">
+        <span class="label">Who We Serve</span>
+        <h2>Every clinic that delivers custom orthotics — without the automation.</h2>
+      </div>
+      <div class="audience-grid">
+        <div class="audience-card reveal">
+          <div class="card-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1C5.24 1 3 3.24 3 6c0 2.97 3.52 7.44 4.48 8.64.28.35.76.35 1.04 0C9.48 13.44 13 8.97 13 6c0-2.76-2.24-5-5-5z" stroke="currentColor" stroke-width="1.2"/><circle cx="8" cy="6" r="2" stroke="currentColor" stroke-width="1.1"/></svg>
+          </div>
+          <span class="card-label">Primary Segment</span>
+          <h3>Podiatry Clinics</h3>
+          <p>Small-to-medium clinics already prescribing custom insoles manually. High urgency, willingness to pay, and direct ROI from faster turnaround and consistent outcomes.</p>
+        </div>
+        <div class="audience-card reveal">
+          <div class="card-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M4 6l4-4 4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M3 14h10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <span class="card-label">Primary Segment</span>
+          <h3>Physiotherapy Centers</h3>
+          <p>Rehabilitation-focused clinics treating gait disorders, post-surgical recovery, and chronic musculoskeletal conditions — where precision orthotics directly improve outcomes.</p>
+        </div>
+        <div class="audience-card reveal">
+          <div class="card-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M5 3V2M11 3V2M2 7h12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <span class="card-label">Secondary Segment</span>
+          <h3>Orthopedic Practitioners</h3>
+          <p>Hospital-based and private orthopedic surgeons integrating pre- and post-operative orthotic support into patient care pathways.</p>
+        </div>
+        <div class="audience-card reveal">
+          <div class="card-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.5 4.5H14l-3.75 2.73 1.43 4.4L8 10l-3.68 2.63 1.43-4.4L2 5.5h4.5L8 1z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="card-label">Secondary Segment</span>
+          <h3>Sports Medicine Clinics</h3>
+          <p>High-performance clinics serving elite and recreational athletes where biomechanical precision and rapid turnaround directly translate to competitive advantage.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINANCIAL ROADMAP -->
+  <div class="section-divider"></div>
+  <section class="section financial">
+    <div class="container">
+      <div class="reveal">
+        <span class="label">Financial Roadmap</span>
+        <h2>From validation<br>to scale.</h2>
+        <p class="financial-body">We project conservative, milestone-based revenue growth anchored by a SaaS subscription model at €150–€300/month per clinic, supplemented by per-unit fabrication revenue from Year 2 onward.</p>
+      </div>
+      <div class="financial-grid reveal-children">
+        <div class="fin-card">
+          <p class="fin-year">Year 1 — Foundation</p>
+          <p class="fin-revenue">€48,000</p>
+          <p class="fin-clinics">20 clinics × €200/month</p>
+          <div class="fin-bar-bg"><div class="fin-bar" data-width="10"></div></div>
+          <p class="fin-note">Phase 1: Software-led market validation and first clinical partnerships</p>
+        </div>
+        <div class="fin-card">
+          <p class="fin-year">Year 2 — Expansion</p>
+          <p class="fin-revenue">€192,000</p>
+          <p class="fin-clinics">80 clinics total + fabrication revenue</p>
+          <div class="fin-bar-bg"><div class="fin-bar" data-width="40"></div></div>
+          <p class="fin-note">Phase 2: Fabrication network launched, new revenue stream activated</p>
+        </div>
+        <div class="fin-card">
+          <p class="fin-year">Year 3 — Scale</p>
+          <p class="fin-revenue">€480,000</p>
+          <p class="fin-clinics">200 clinics total across Europe</p>
+          <div class="fin-bar-bg"><div class="fin-bar" data-width="100"></div></div>
+          <p class="fin-note">Distributed fabrication at scale, international market entry</p>
+        </div>
+      </div>
+      <div class="sub-note reveal">
+        <div class="sub-note-icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M4 7h6M4 4.5h6M4 9.5h4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+        </div>
+        <p class="sub-note-text"><strong>Subscription: €150–€300/month per clinic.</strong> Low churn through high value delivery. Moderate B2B acquisition cost. Gradual customer growth anchored by beachhead clinics.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RISK MANAGEMENT -->
+  <div class="section-divider"></div>
+  <section class="section risk">
+    <div class="container">
+      <div class="reveal">
+        <span class="label">Risk & Mitigation</span>
+        <h2>The real risk is adoption,<br>not technology.</h2>
+      </div>
+      <div class="risk-grid">
+        <div class="risk-card reveal">
+          <div class="risk-badges">
+            <span class="rbadge rbadge-orange">Likelihood: Medium</span>
+            <span class="rbadge rbadge-red">Impact: High</span>
+          </div>
+          <h3>Demand Risk</h3>
+          <p class="risk-desc">Clinics may not adopt the platform if behavior change friction outweighs perceived efficiency gains.</p>
+          <div class="risk-mitigation">
+            <p class="risk-mit-label">Mitigation</p>
+            <div class="risk-mit-item">Pilot programs with early adopter clinics to demonstrate ROI</div>
+            <div class="risk-mit-item">Co-design process with clinical partners from day one</div>
+            <div class="risk-mit-item">Beachhead: target clinics already generating custom orthotic revenue</div>
+          </div>
+        </div>
+        <div class="risk-card reveal">
+          <div class="risk-badges">
+            <span class="rbadge rbadge-orange">Likelihood: Medium</span>
+            <span class="rbadge rbadge-orange">Impact: Medium</span>
+          </div>
+          <h3>Technology Risk</h3>
+          <p class="risk-desc">ML automation may not deliver sufficient clinical value in early versions, undermining trust.</p>
+          <div class="risk-mitigation">
+            <p class="risk-mit-label">Mitigation</p>
+            <div class="risk-mit-item">Start with simple, transparent workflows before complex automation</div>
+            <div class="risk-mit-item">Incremental ML updates validated with clinical feedback loops</div>
+            <div class="risk-mit-item">Decision-support positioning — clinician remains in control</div>
+          </div>
+        </div>
+        <div class="risk-card reveal">
+          <div class="risk-badges">
+            <span class="rbadge rbadge-green">Likelihood: Low–Med</span>
+            <span class="rbadge rbadge-red">Impact: High</span>
+          </div>
+          <h3>Regulatory Risk</h3>
+          <p class="risk-desc">Medical device classification could impose regulatory barriers if the platform is positioned as a diagnostic tool.</p>
+          <div class="risk-mitigation">
+            <p class="risk-mit-label">Mitigation</p>
+            <div class="risk-mit-item">Design-support positioning — avoid diagnostic claims</div>
+            <div class="risk-mit-item">Early engagement with regulatory advisors</div>
+            <div class="risk-mit-item">Clinical decision remains with licensed practitioner</div>
+          </div>
+        </div>
+      </div>
+      <div class="risk-insight reveal">
+        <p><strong>Critical insight:</strong> The primary barrier to market entry is <strong>behavior change</strong>, not technology. Competitors face the same barrier — giving first movers who build clinical credibility a durable advantage.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDERS -->
+  <div class="section-divider"></div>
+  <section class="section founders-section">
+    <div class="container">
+      <div class="reveal">
+        <span class="label">The Founding Team</span>
+        <h2>Engineering meets<br>clinical science.</h2>
+        <p class="founders-sub">Two founders. One mission: bridging the gap between advanced engineering and clinical excellence in orthotic care.</p>
+      </div>
+      <div class="founders-grid">
+        <div class="founder-card reveal">
+          <div class="founder-top">
+            <div class="founder-avatar"><span class="founder-initials">MM</span></div>
+            <div class="founder-meta">
+              <p class="founder-name">Morteza Mohayyaei</p>
+              <p class="founder-role">Co-Founder · Product & Systems Engineering</p>
+            </div>
+          </div>
+          <blockquote class="founder-quote">
+            "Building something real means understanding markets and users, not just the technology."
+          </blockquote>
+          <div class="founder-trust">
+            <div class="founder-trust-item">MSc Entrepreneurship, Bern University of Applied Sciences (BFH)</div>
+            <div class="founder-trust-item">Expert in robotics, digital fabrication, and computational design</div>
+            <div class="founder-trust-item">ROS2, Gazebo, MoveIt · 6-axis robotic systems</div>
+            <div class="founder-trust-item">Systems thinking, market validation, and hands-on prototyping</div>
+          </div>
+          <div class="founder-tags">
+            <span class="founder-tag">#Robotics</span>
+            <span class="founder-tag">#AI</span>
+            <span class="founder-tag">#DigitalFabrication</span>
+            <span class="founder-tag">#Entrepreneurship</span>
+          </div>
+        </div>
+        <div class="founder-card reveal">
+          <div class="founder-top">
+            <div class="founder-avatar"><span class="founder-initials">MS</span></div>
+            <div class="founder-meta">
+              <p class="founder-name">S.M. Mohammadreza Shokouhyan</p>
+              <p class="founder-role">Co-Founder · Biomechanics & ML Lead</p>
+            </div>
+          </div>
+          <blockquote class="founder-quote">
+            "Improving patient outcomes through data-driven insights and innovative clinical solutions."
+          </blockquote>
+          <div class="founder-trust">
+            <div class="founder-trust-item">PhD Candidate, CHUV / University of Lausanne (UNIL)</div>
+            <div class="founder-trust-item">10+ years in biomechanics research and clinical applications</div>
+            <div class="founder-trust-item">ML-based gait analysis and orthopedic care systems</div>
+            <div class="founder-trust-item">Clinical validation with CHUV multidisciplinary medical teams</div>
+          </div>
+          <div class="founder-tags">
+            <span class="founder-tag">#Biomechanics</span>
+            <span class="founder-tag">#MedTech</span>
+            <span class="founder-tag">#MachineLearning</span>
+            <span class="founder-tag">#ClinicalResearch</span>
+          </div>
+        </div>
+      </div>
+      <div class="founders-bridge reveal">
+        <p>Bridging the gap between <em>advanced engineering</em> and <em>clinical excellence.</em></p>
+      </div>
+      <div class="cred-strip reveal-children">
+        <div class="cred-stat">
+          <span class="cred-number" data-target="10">0</span>
+          <span class="cred-label">years combined biomechanics research</span>
+        </div>
+        <div class="cred-stat">
+          <span class="cred-number" data-target="2">0</span>
+          <span class="cred-label">leading Swiss research institutions</span>
+        </div>
+        <div class="cred-stat">
+          <span class="cred-number" data-target="200">0</span>
+          <span class="cred-label">clinics targeted by Year 3</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="section-divider"></div>
+  <section class="section cta-section" id="early-access">
+    <div class="shape shape-circle cs1" aria-hidden="true"></div>
+    <div class="shape shape-plus cs2" aria-hidden="true"></div>
+    <div class="shape shape-line cs3" aria-hidden="true"></div>
+    <div class="shape shape-ring cs4" aria-hidden="true"></div>
+    <div class="container">
+      <div class="reveal">
+        <h2>Join us in<br>revolutionizing orthotics.</h2>
+        <p class="cta-sub">Be first. Get early platform access and shape the future of orthotic care with us.</p>
+        <div class="cta-form-wrap">
+          <div class="cta-form-glow" aria-hidden="true"></div>
+          <div class="cta-form" id="signup-form">
+            <input type="email" id="signup-email" placeholder="Your clinic email" required autocomplete="email" aria-label="Email address">
+            <button type="button" onclick="handleSignup()">Request Access</button>
+          </div>
+        </div>
+        <p class="cta-fine">No spam. One message when we're ready.</p>
+        <div class="cta-contact">
+          <a href="mailto:Mohayyaei.arch@gmail.com">Mohayyaei.arch@gmail.com</a>
+          <a href="mailto:m.shokouhyan@gmail.com">m.shokouhyan@gmail.com</a>
+          <p class="cta-location">Lausanne, Switzerland</p>
+        </div>
+        <div id="signup-toast" style="display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:#0C1021;border:1px solid rgba(75,142,232,.35);border-radius:100px;padding:.85rem 2rem;color:#EBF0FF;font-family:'DM Sans',sans-serif;font-size:.9rem;z-index:9999;opacity:0;transition:opacity .4s,transform .4s;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.4);">
+          <span style="color:#26C9A8;margin-right:.6rem;">✓</span>You're on the list. We'll be in touch.
+          <button onclick="closeToast()" style="background:none;border:none;color:#4E5B80;cursor:pointer;margin-left:1rem;font-size:1rem;line-height:1;padding:0;">×</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+    <div class="container">
+      <div class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <span class="top-arrow"></span>Back to top
+      </div>
+      <p class="footer-brand">Next-Gen Orthotic &ensp;&middot;&ensp; Biomechanical Intelligence Platform &ensp;&middot;&ensp; &copy; 2026 Morteza Mohayyaei &amp; S.M. Mohammadreza Shokouhyan &ensp;&middot;&ensp; Lausanne, Switzerland</p>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+  // ── Toast ──
+  function handleSignup(){
+    const inp=document.getElementById('signup-email'),toast=document.getElementById('signup-toast');
+    if(!inp.value||!inp.validity.valid){inp.style.borderColor='rgba(232,74,74,.6)';inp.focus();setTimeout(()=>{inp.style.borderColor=''},2000);return;}
+    toast.style.display='block';requestAnimationFrame(()=>{toast.style.opacity='1';toast.style.transform='translateX(-50%) translateY(0)'});
+    inp.value='';setTimeout(closeToast,5000);
+  }
+  function closeToast(){const t=document.getElementById('signup-toast');t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';setTimeout(()=>{t.style.display='none'},400)}
+  document.getElementById('signup-email').addEventListener('keydown',e=>{if(e.key==='Enter')handleSignup()});
+
+  // ── Orthotic scan animation ──
+  let orthoTL=null;
+  function buildOrthoTL(){
+    if(orthoTL){orthoTL.kill();orthoTL=null;}
+    const nodes=document.querySelectorAll('.orthoNode');
+    const lines=document.querySelectorAll('.meshLine');
+    gsap.set('#insoleOutline',{strokeDashoffset:900,opacity:1});
+    gsap.set('#insoleFill',{opacity:0});
+    gsap.set('#scanBarGroup',{x:0,opacity:1});
+    gsap.set('#scanStatusText',{opacity:0});
+    gsap.set(nodes,{opacity:0,scale:0,transformOrigin:'center center'});
+    lines.forEach(l=>l.style.strokeDashoffset='100');
+    gsap.set('.pressureZone',{opacity:0,scale:0.4,transformOrigin:'center center'});
+    gsap.set('#labelHeel',{opacity:0});
+    gsap.set('#labelBall',{opacity:0});
+    gsap.set('#orthoSuccess',{opacity:0});
+
+    orthoTL=gsap.timeline({paused:true});
+    // Insole outline draws
+    orthoTL.to('#insoleOutline',{strokeDashoffset:0,duration:1.5,ease:'power2.inOut'},0);
+    // Scanner sweeps (270px travel from x=143 to ~413)
+    orthoTL.to('#scanBarGroup',{x:272,duration:1.3,ease:'power2.inOut'},0.3);
+    orthoTL.to('#scanStatusText',{opacity:1,duration:0.3},0.3);
+    // Data nodes appear staggered
+    orthoTL.to(nodes,{opacity:1,scale:1,stagger:0.09,duration:0.35,ease:'back.out(2)'},0.85);
+    // Scanner fades
+    orthoTL.to('#scanBarGroup',{opacity:0,duration:0.4},1.8);
+    orthoTL.to('#scanStatusText',{opacity:0,duration:0.3},1.8);
+    // Mesh lines draw in
+    orthoTL.to(lines,{strokeDashoffset:0,stagger:0.045,duration:0.5,ease:'power2.out'},2.0);
+    // Fill fades in
+    orthoTL.to('#insoleFill',{opacity:1,duration:0.9,ease:'power2.out'},2.9);
+    // Pressure zones
+    orthoTL.to('.pressureZone',{opacity:1,scale:1,stagger:0.35,duration:0.6,ease:'back.out(1.5)',transformOrigin:'center center'},3.4);
+    orthoTL.to('#labelHeel',{opacity:1,duration:0.4},3.9);
+    orthoTL.to('#labelBall',{opacity:1,duration:0.4},4.1);
+    // Success
+    orthoTL.to('#orthoSuccess',{opacity:1,duration:0.5,ease:'back.out(2)'},4.4);
+    return orthoTL;
+  }
+  function replayOrtho(){buildOrthoTL().play();}
+
+  const prefersReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── Loader ──
+  const loader=document.querySelector('.loader');
+  if(!prefersReducedMotion&&loader){
+    setTimeout(()=>{
+      loader.style.transition='opacity .6s,visibility .6s';
+      loader.style.opacity='0';loader.style.visibility='hidden';
+      document.body.classList.remove('loading');
+      startAnimations();
+    },1600);
+  } else {
+    if(loader)loader.style.display='none';
+    document.body.classList.remove('loading');
+    if(!prefersReducedMotion)startAnimations();
+  }
+
+  function startAnimations(){
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Cursor glow
+    const glow=document.querySelector('.cursor-glow');
+    let gX=0,gY=0,cX=-500,cY=-500;
+    document.addEventListener('mousemove',e=>{cX=e.clientX;cY=e.clientY});
+    (function tick(){gX+=(cX-gX)*.06;gY+=(cY-gY)*.06;glow.style.left=gX+'px';glow.style.top=gY+'px';requestAnimationFrame(tick)})();
+
+    // Orbs
+    gsap.to('.orb-1',{x:30,y:-20,duration:12,repeat:-1,yoyo:true,ease:'sine.inOut'});
+    gsap.to('.orb-2',{x:-25,y:15,duration:10,repeat:-1,yoyo:true,ease:'sine.inOut'});
+
+    // Scroll progress
+    const prog=document.querySelector('.scroll-progress');
+    ScrollTrigger.create({trigger:document.body,start:'top top',end:'bottom bottom',onUpdate:s=>prog.style.width=(s.progress*100)+'%'});
+
+    // Nav
+    ScrollTrigger.create({start:'top -50',onUpdate:s=>document.querySelector('nav').classList.toggle('scrolled',s.progress>0)});
+
+    // Hero entrance
+    const htl=gsap.timeline({defaults:{ease:'power4.out'},delay:.2});
+    htl.from('.hero-label-inner',{y:'100%',duration:.9})
+       .from('.hero-line .line-inner',{y:'115%',rotation:3,stagger:.12,duration:1.3},'-=.5')
+       .from('.hero-sub',{y:30,opacity:0,duration:1},'-=.5')
+       .from('.btn-magnetic',{y:20,opacity:0,duration:.8},'-=.5')
+       .from('.hero-scroll',{opacity:0,duration:1.5},'-=.3');
+
+    // Hero shapes parallax
+    gsap.utils.toArray('.hero .shape').forEach((s,i)=>{
+      gsap.to(s,{y:[55,-70,35,-55,45,-25,60,40][i%8],rotation:[10,-7,4,-12,8,-4,6,-9][i%8],ease:'none',
+        scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:.6}});
+    });
+    gsap.to('.hero-lines',{y:-80,opacity:0,ease:'none',scrollTrigger:{trigger:'.hero',start:'55% top',end:'bottom top',scrub:true}});
+    gsap.to('.hero-sub',{y:-40,opacity:0,ease:'none',scrollTrigger:{trigger:'.hero',start:'65% top',end:'bottom top',scrub:true}});
+
+    // Section dividers
+    gsap.utils.toArray('.section-divider').forEach(d=>{
+      ScrollTrigger.create({trigger:d,start:'top 92%',onEnter:()=>d.classList.add('swept'),once:true});
+    });
+
+    // Reveal
+    gsap.utils.toArray('.reveal').forEach(el=>{
+      gsap.to(el,{y:0,opacity:1,duration:1.2,ease:'power3.out',
+        scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}});
+    });
+    gsap.utils.toArray('.reveal-children').forEach(p=>{
+      gsap.to(p.children,{y:0,opacity:1,stagger:.1,duration:1,ease:'power3.out',
+        scrollTrigger:{trigger:p,start:'top 85%',toggleActions:'play none none none'}});
+    });
+
+    // Counters
+    gsap.utils.toArray('[data-target]').forEach(el=>{
+      const target=parseInt(el.dataset.target);
+      const isBig=(target>=100);
+      const suf=el.closest('.market-circle-card')?'B+':'';
+      const o={val:0};
+      gsap.to(o,{val:target,duration:isBig?2.8:2.2,ease:'power2.out',
+        scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'},
+        onUpdate:()=>{el.textContent=Math.round(o.val)+(suf||'');}});
+    });
+
+    // Fin bars
+    gsap.utils.toArray('.fin-bar').forEach((bar,i)=>{
+      const w=bar.dataset.width+'%';
+      ScrollTrigger.create({trigger:bar,start:'top 90%',once:true,
+        onEnter:()=>gsap.to(bar,{width:w,duration:1.5,delay:i*.2,ease:'power3.out'})});
+    });
+
+    // Orthotic animation trigger
+    buildOrthoTL();
+    ScrollTrigger.create({trigger:'#orthoticScene',start:'top 70%',once:true,
+      onEnter:()=>setTimeout(()=>orthoTL.play(),200)});
+
+    // Problem shapes
+    gsap.utils.toArray('.problem .shape').forEach((s,i)=>{
+      gsap.to(s,{y:[35,-45][i%2],rotation:[6,-5][i%2],ease:'none',
+        scrollTrigger:{trigger:'.problem',start:'top bottom',end:'bottom top',scrub:.5}});
+    });
+
+    // CTA shapes
+    gsap.utils.toArray('.cta-section .shape').forEach((s,i)=>{
+      gsap.to(s,{y:[45,-35,25,-40][i%4],rotation:[8,-10,5,-7][i%4],ease:'none',
+        scrollTrigger:{trigger:'.cta-section',start:'top bottom',end:'bottom top',scrub:.5}});
+    });
+
+    // How It Works horizontal scroll
+    if(window.innerWidth>=768&&window.innerHeight>=700){
+      const track=document.querySelector('.how-track');
+      const dotsEl=document.querySelector('.how-dots');
+      const dotEls=document.querySelectorAll('.how-dot');
+      gsap.to(track,{xPercent:-66.666,ease:'none',scrollTrigger:{
+        trigger:'.how-pin-area',pin:true,scrub:1,
+        end:()=>'+='+(track.scrollWidth-window.innerWidth),
+        invalidateOnRefresh:true,
+        onEnter:()=>dotsEl.classList.add('visible'),
+        onLeave:()=>dotsEl.classList.remove('visible'),
+        onEnterBack:()=>dotsEl.classList.add('visible'),
+        onLeaveBack:()=>dotsEl.classList.remove('visible'),
+        onUpdate:s=>{const step=Math.min(2,Math.floor(s.progress*3));dotEls.forEach((d,i)=>d.classList.toggle('active',i===step))}
+      }});
+    } else if(window.innerWidth>=768){
+      const track=document.querySelector('.how-track');
+      if(track){track.style.flexDirection='column';track.style.width='100%';track.style.height='auto';
+        document.querySelectorAll('.how-step').forEach(s=>{s.style.width='100%';s.style.height='auto';s.style.padding='4rem clamp(1.5rem,5vw,4rem)'});}
+    }
+
+    // Magnetic button
+    const mag=document.querySelector('.btn-magnetic');
+    if(mag){
+      const btn=mag.querySelector('.btn-primary');
+      mag.addEventListener('mousemove',e=>{const r=mag.getBoundingClientRect();gsap.to(btn,{x:(e.clientX-r.left-r.width/2)*.25,y:(e.clientY-r.top-r.height/2)*.25,duration:.4,ease:'power2.out'})});
+      mag.addEventListener('mouseleave',()=>gsap.to(btn,{x:0,y:0,duration:.7,ease:'elastic.out(1,.35)'}));
+    }
+  }
+
+  // Reduced motion fallback
+  if(prefersReducedMotion){
+    document.querySelectorAll('.reveal').forEach(el=>{el.style.opacity='1';el.style.transform='none'});
+    document.querySelectorAll('.reveal-children > *').forEach(el=>{el.style.opacity='1';el.style.transform='none'});
+    document.querySelectorAll('[data-target]').forEach(el=>{el.textContent=el.dataset.target});
+    document.querySelectorAll('.fin-bar').forEach(b=>{b.style.width=b.dataset.width+'%'});
+    document.getElementById('insoleOutline').style.strokeDashoffset='0';
+    document.getElementById('insoleFill').style.opacity='0.8';
+    document.getElementById('orthoSuccess').style.opacity='1';
+    document.querySelectorAll('.orthoNode').forEach(n=>{n.style.opacity='1'});
+    document.querySelectorAll('.meshLine').forEach(l=>{l.style.strokeDashoffset='0'});
+    document.querySelectorAll('.pressureZone').forEach(z=>{z.style.opacity='1'});
+  }
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(l=>{
+    l.addEventListener('click',e=>{const t=document.querySelector(l.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}});
+  });
+  </script>
+</body>
+</html>
