@@ -338,6 +338,65 @@
     .reveal{opacity:0;transform:translateY(50px)}
     .reveal-children>*{opacity:0;transform:translateY(30px)}
 
+    /* LANG TOGGLE */
+    .nav-right{display:flex;align-items:center;gap:.5rem}
+    .lang-toggle{display:flex;align-items:center;gap:.2rem}
+    .lang-btn{background:none;border:none;cursor:pointer;font-family:var(--font-body);font-size:.62rem;letter-spacing:.12em;font-weight:500;color:var(--text-secondary);padding:.2rem .35rem;border-radius:4px;transition:color .3s}
+    .lang-btn.active{color:var(--amber)}
+    .lang-btn:hover{color:var(--text)}
+    .lang-sep{font-size:.55rem;color:var(--border);opacity:.8}
+
+    /* OUTCOMES */
+    .outcomes{background:var(--bg)}
+    .outcomes h2{font-family:var(--font-display);font-size:clamp(2.5rem,5.5vw,5rem);line-height:1.08;margin-bottom:4rem}
+    .outcomes h2 em{font-style:normal;color:var(--amber)}
+    .outcomes-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+    @media(max-width:767px){.outcomes-grid{grid-template-columns:1fr}}
+    .outcome-card{padding:2.5rem;border:1px solid var(--border);border-radius:16px;background:var(--surface);transition:border-color .5s,transform .5s,box-shadow .5s}
+    .outcome-card:hover{border-color:rgba(212,144,58,.2);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.35)}
+    .outcome-category{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--amber);font-weight:500;margin-bottom:1.25rem}
+    .outcome-transform{display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap}
+    .outcome-before{font-family:var(--font-display);font-size:clamp(1.6rem,2.8vw,2.2rem);color:var(--text-secondary);text-decoration:line-through;text-decoration-color:rgba(212,144,58,.3)}
+    .outcome-arrow{font-size:1.1rem;color:var(--amber);opacity:.5}
+    .outcome-after{font-family:var(--font-display);font-size:clamp(1.8rem,3.2vw,2.8rem);color:var(--amber)}
+    .outcome-desc{font-size:.88rem;color:var(--text-dim);line-height:1.8;font-weight:300}
+
+    /* FEATURES */
+    .features-section{background:var(--surface)}
+    .features-section h2{font-family:var(--font-display);font-size:clamp(2rem,4.5vw,3.5rem);line-height:1.15;margin-bottom:4rem;max-width:620px}
+    .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    @media(max-width:900px){.features-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:580px){.features-grid{grid-template-columns:1fr}}
+    .feature-card{padding:2rem;border:1px solid var(--border);border-radius:14px;background:rgba(10,10,10,.5);transition:border-color .5s,transform .5s}
+    .feature-card:hover{border-color:rgba(212,144,58,.18);transform:translateY(-3px)}
+    .feature-icon{width:32px;height:32px;border-radius:8px;border:1px solid rgba(212,144,58,.2);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;color:var(--amber)}
+    .feature-card h3{font-family:var(--font-display);font-size:1.15rem;margin-bottom:.75rem}
+    .feature-card p{font-size:.85rem;color:var(--text-dim);line-height:1.8;font-weight:300}
+
+    /* PRICING */
+    .pricing-section{background:var(--bg)}
+    .pricing-section h2{font-family:var(--font-display);font-size:clamp(2rem,4.5vw,3.5rem);line-height:1.15;margin-bottom:1rem;max-width:620px}
+    .pricing-sub{font-size:clamp(.9rem,1.3vw,1rem);color:var(--text-dim);line-height:1.9;max-width:540px;margin-bottom:4rem;font-weight:300}
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+    @media(max-width:900px){.pricing-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:580px){.pricing-grid{grid-template-columns:1fr}}
+    .pricing-card{padding:2.5rem;border:1px solid var(--border);border-radius:16px;background:var(--surface);position:relative;transition:border-color .5s,transform .5s,box-shadow .5s}
+    .pricing-card:hover{border-color:rgba(212,144,58,.2);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+    .pricing-card-featured{border-color:rgba(212,144,58,.3);background:linear-gradient(135deg,rgba(212,144,58,.05) 0%,var(--surface) 100%)}
+    .pricing-card-featured::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent);opacity:.5}
+    .pricing-badge{display:inline-block;font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;padding:.3rem .9rem;border-radius:100px;margin-bottom:1.5rem;font-weight:500}
+    .pricing-badge-plain{border:1px solid var(--border);color:var(--text-secondary)}
+    .pricing-badge-featured{border:1px solid rgba(212,144,58,.35);color:var(--amber);background:rgba(212,144,58,.06)}
+    .pricing-badge-support{border:1px solid rgba(74,140,123,.3);color:var(--teal)}
+    .pricing-tier-name{font-family:var(--font-display);font-size:1.35rem;margin-bottom:1rem}
+    .pricing-price{display:flex;align-items:baseline;gap:.5rem;margin-bottom:1.75rem;padding-bottom:1.75rem;border-bottom:1px solid var(--border)}
+    .pricing-amount{font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.4rem);color:var(--amber)}
+    .pricing-period{font-size:.8rem;color:var(--text-secondary);font-weight:300}
+    .pricing-items{display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem}
+    .pricing-item{display:flex;align-items:flex-start;gap:.75rem;font-size:.88rem;color:var(--text-dim);font-weight:300;line-height:1.5}
+    .pricing-item::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--amber);opacity:.55;flex-shrink:0;margin-top:.58rem}
+    .pricing-note{font-size:.75rem;color:var(--text-secondary);opacity:.6;font-weight:300;line-height:1.6}
+
     /* REDUCED MOTION */
     @media(prefers-reduced-motion:reduce){
       *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -395,7 +454,14 @@
         </svg>
         <span class="nav-logo-text">Gleitfix</span>
       </a>
-      <a href="#early-access" class="nav-cta">Früher Zugang</a>
+      <div class="nav-right">
+        <div class="lang-toggle" aria-label="Sprache / Language">
+          <button class="lang-btn active" onclick="setLang('de')" id="btn-de" aria-pressed="true">DE</button>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <button class="lang-btn" onclick="setLang('en')" id="btn-en" aria-pressed="false">EN</button>
+        </div>
+        <a href="#pilot" class="nav-cta" data-de="Pilot anfragen" data-en="Request a Pilot">Pilot anfragen</a>
+      </div>
     </div>
   </nav>
 
@@ -409,16 +475,16 @@
     <div class="shape shape-dot s6" aria-hidden="true"></div>
     <div class="shape shape-dot s7" aria-hidden="true"></div>
     <div class="shape shape-line s8" aria-hidden="true"></div>
-    <span class="hero-label"><span class="hero-label-inner">GLEITFIX — SCHWEIZER INNOVATION</span></span>
+    <span class="hero-label"><span class="hero-label-inner" data-de="GLEITFIX — SCHWEIZER INNOVATION" data-en="GLEITFIX — SWISS INNOVATION">GLEITFIX — SCHWEIZER INNOVATION</span></span>
     <div class="hero-lines">
-      <span class="hero-line"><span class="line-inner">Einmal laden.</span></span>
-      <span class="hero-line"><span class="line-inner">Einschieben.</span></span>
-      <span class="hero-line"><span class="line-inner">Fertig.</span></span>
+      <span class="hero-line"><span class="line-inner" data-de="Einmal laden." data-en="Load once.">Einmal laden.</span></span>
+      <span class="hero-line"><span class="line-inner" data-de="Einschieben." data-en="Slide in.">Einschieben.</span></span>
+      <span class="hero-line"><span class="line-inner" data-de="Fertig." data-en="Done.">Fertig.</span></span>
     </div>
-    <p class="hero-sub">Das erste universelle Vorhang-Lade-System.<br>Alle Gleiter auf einmal — kein Leiter, kein Stress.<br>Entworfen in der Schweiz.</p>
+    <p class="hero-sub" data-de="Das erste universelle Vorhang-Lade-System.<br>Alle Gleiter auf einmal — kein Leiter, kein Stress.<br>Entworfen in der Schweiz." data-en="The first universal curtain-loading system.<br>All gliders at once — no ladder, no stress.<br>Designed in Switzerland.">Das erste universelle Vorhang-Lade-System.<br>Alle Gleiter auf einmal — kein Leiter, kein Stress.<br>Entworfen in der Schweiz.</p>
     <div class="btn-magnetic">
-      <a href="#early-access" class="btn-primary">
-        Früher Zugang sichern <span class="arrow">&rarr;</span>
+      <a href="#pilot" class="btn-primary" data-de="Pilotprojekt anfragen →" data-en="Request a Pilot →">
+        Pilotprojekt anfragen <span class="arrow">&rarr;</span>
       </a>
     </div>
     <div class="hero-scroll" aria-hidden="true">
@@ -434,13 +500,13 @@
     <div class="shape shape-plus ps2" aria-hidden="true"></div>
     <div class="container">
       <div class="problem-content reveal-children">
-        <span class="label">Das Problem</span>
-        <h2>Du kennst <em>das Gefühl.</em></h2>
-        <p>Arme über dem Kopf. Winzige Gleiter rutschen durch die Finger. Einer geht rein, drei fallen auf den Boden. Der Nacken schmerzt. Du stehst auf einer Leiter. Du hast jemanden um Hilfe gebeten — jetzt sind beide frustriert.</p>
-        <p>Fünf Minuten später: ein Fenster geschafft. Noch vier weitere.</p>
+        <span class="label" data-de="Das Problem" data-en="The Problem">Das Problem</span>
+        <h2 data-de="Du kennst <em>das Gefühl.</em>" data-en="You know <em>the feeling.</em>">Du kennst <em>das Gefühl.</em></h2>
+        <p data-de="Arme über dem Kopf. Winzige Gleiter rutschen durch die Finger. Einer geht rein, drei fallen auf den Boden. Der Nacken schmerzt. Du stehst auf einer Leiter. Du hast jemanden um Hilfe gebeten — jetzt sind beide frustriert." data-en="Arms above your head. Tiny gliders slip through your fingers. One goes in, three fall to the floor. Your neck aches. You're on a ladder. You asked someone for help — now both of you are frustrated.">Arme über dem Kopf. Winzige Gleiter rutschen durch die Finger. Einer geht rein, drei fallen auf den Boden. Der Nacken schmerzt. Du stehst auf einer Leiter. Du hast jemanden um Hilfe gebeten — jetzt sind beide frustriert.</p>
+        <p data-de="Fünf Minuten später: ein Fenster geschafft. Noch vier weitere." data-en="Five minutes later: one window done. Four more to go.">Fünf Minuten später: ein Fenster geschafft. Noch vier weitere.</p>
         <div class="stat">
           <span class="stat-number" data-target="10">0</span>
-          <span class="stat-label">Minuten pro Fenster im Durchschnitt</span>
+          <span class="stat-label" data-de="Minuten pro Fenster im Durchschnitt" data-en="minutes per window on average">Minuten pro Fenster im Durchschnitt</span>
         </div>
       </div>
       <div class="problem-visual reveal">
@@ -458,8 +524,8 @@
     <div class="container">
       <div class="principle-inner">
         <div class="principle-text">
-          <span class="label">Das Prinzip</span>
-          <p class="tagline">Wie ein <em>Magazin</em> für Vorhanggleiter.</p>
+          <span class="label" data-de="Das Prinzip" data-en="The Principle">Das Prinzip</span>
+          <p class="tagline" data-de="Wie ein <em>Magazin</em> für Vorhanggleiter." data-en="Like a <em>magazine</em> for curtain gliders.">Wie ein <em>Magazin</em> für Vorhanggleiter.</p>
           <p class="body">Statt jeden Gleiter einzeln von oben in die Schiene einzufädeln, lädst du alle auf einmal in Gleitfix — bequem auf Tischhöhe, stehend. Dann klickst du Gleitfix ans offene Schienenende. Ein Schub. Alle Gleiter gleiten gleichzeitig rein.</p>
           <div class="principle-steps">
             <div class="ps-item"><span class="ps-num">1</span>Gleiter bequem auf Tischhöhe in Gleitfix einfädeln</div>
@@ -631,8 +697,8 @@
   <div class="section-divider"></div>
   <div class="how-outer">
     <div class="container how-header reveal">
-      <span class="label">So funktioniert's</span>
-      <h2>Drei Schritte.<br>Ein Schub.</h2>
+      <span class="label" data-de="So funktioniert's" data-en="How it works">So funktioniert's</span>
+      <h2 data-de="Drei Schritte.<br>Ein Schub." data-en="Three steps.<br>One push.">Drei Schritte.<br>Ein Schub.</h2>
     </div>
 
     <div class="how-pin-area">
@@ -682,13 +748,173 @@
   <section class="section aph-section">
     <div class="container">
       <div class="aph-inner reveal">
-        <span class="label">Zuerst entwickelt für</span>
-        <h2 class="aph-headline">Alters- und Pflegeheime.</h2>
-        <p class="aph-body">Vorhangwartung in Pflegebetrieben bedeutet üblicherweise zwei Pflegepersonen, eine Leiter und dreissig Minuten pro Fenster — Zeit, die den Bewohnern fehlt. Gleitfix wurde genau für dieses Umfeld entwickelt. Unser Pilotcluster läuft in der Surselva, Graubünden, mit Hauswirtschaftsteams in Schweizer APH. Ein Adapter, vorhandene Gleiter, drei bis fünf Minuten pro Fenster statt dreissig.</p>
+        <span class="label" data-de="Zuerst entwickelt für" data-en="Developed first for">Zuerst entwickelt für</span>
+        <h2 class="aph-headline" data-de="Alters- und Pflegeheime." data-en="Retirement and nursing homes.">Alters- und Pflegeheime.</h2>
+        <p class="aph-body" data-de="Vorhangwartung in Pflegebetrieben bedeutet üblicherweise zwei Pflegepersonen, eine Leiter und dreissig Minuten pro Fenster — Zeit, die den Bewohnern fehlt. Gleitfix wurde genau für dieses Umfeld entwickelt. Unser Pilotcluster läuft in der Surselva, Graubünden, mit Hauswirtschaftsteams in Schweizer APH. Ein Adapter, vorhandene Gleiter, drei bis fünf Minuten pro Fenster statt dreissig." data-en="Curtain maintenance in care facilities typically means two staff members, a ladder, and thirty minutes per window — time that is missing from residents. Gleitfix was developed precisely for this environment. Our pilot cluster is running in the Surselva, Graubünden, with housekeeping teams in Swiss care homes. One adapter, existing gliders, three to five minutes per window instead of thirty.">Vorhangwartung in Pflegebetrieben bedeutet üblicherweise zwei Pflegepersonen, eine Leiter und dreissig Minuten pro Fenster — Zeit, die den Bewohnern fehlt. Gleitfix wurde genau für dieses Umfeld entwickelt. Unser Pilotcluster läuft in der Surselva, Graubünden, mit Hauswirtschaftsteams in Schweizer APH. Ein Adapter, vorhandene Gleiter, drei bis fünf Minuten pro Fenster statt dreissig.</p>
         <div class="aph-stats reveal-children">
           <div class="aph-stat"><span class="aph-num">30→3</span><span class="aph-label">Minuten pro Fenster</span></div>
           <div class="aph-stat"><span class="aph-num">1</span><span class="aph-label">Pflegeperson statt zwei</span></div>
           <div class="aph-stat"><span class="aph-num">0</span><span class="aph-label">Leitern benötigt</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTCOMES -->
+  <div class="section-divider"></div>
+  <section class="section outcomes">
+    <div class="container">
+      <div class="reveal">
+        <span class="label" data-de="Der Unterschied in Zahlen" data-en="The Difference in Numbers">Der Unterschied in Zahlen</span>
+        <h2 data-de="Vorher. <em>Nachher.</em>" data-en="Before. <em>After.</em>">Vorher. <em>Nachher.</em></h2>
+      </div>
+      <div class="outcomes-grid">
+        <div class="outcome-card reveal">
+          <p class="outcome-category" data-de="Montagezeit" data-en="Installation Time">Montagezeit</p>
+          <div class="outcome-transform">
+            <span class="outcome-before">30 min</span>
+            <span class="outcome-arrow">→</span>
+            <span class="outcome-after">5 min</span>
+          </div>
+          <p class="outcome-desc" data-de="Manuelle Einzelmontage auf der Leiter ersetzt durch einen einzigen Schub — bequem auf Tischhöhe, stehend." data-en="Manual one-by-one mounting on a ladder replaced by a single push — comfortably at table height, standing.">Manuelle Einzelmontage auf der Leiter ersetzt durch einen einzigen Schub — bequem auf Tischhöhe, stehend.</p>
+        </div>
+        <div class="outcome-card reveal">
+          <p class="outcome-category" data-de="Personalaufwand" data-en="Staff Required">Personalaufwand</p>
+          <div class="outcome-transform">
+            <span class="outcome-before">2 Pers.</span>
+            <span class="outcome-arrow">→</span>
+            <span class="outcome-after">Solo</span>
+          </div>
+          <p class="outcome-desc" data-de="Keine zweite Person zum Halten, Reichen oder Sichern. Eine Pflegeperson erledigt den kompletten Vorhangwechsel alleine." data-en="No second person needed to hold, pass, or secure. One housekeeper completes the entire curtain change alone.">Keine zweite Person zum Halten, Reichen oder Sichern. Eine Pflegeperson erledigt den kompletten Vorhangwechsel alleine.</p>
+        </div>
+        <div class="outcome-card reveal">
+          <p class="outcome-category" data-de="Schienenprofil-Kompatibilität" data-en="Rail Compatibility">Schienenprofil-Kompatibilität</p>
+          <div class="outcome-transform">
+            <span class="outcome-before">1 Typ</span>
+            <span class="outcome-arrow">→</span>
+            <span class="outcome-after">Alle</span>
+          </div>
+          <p class="outcome-desc" data-de="Austauschbare Steckköpfe decken alle gängigen Schweizer Einputzschienen ab — ohne bestehende Gleiter zu ersetzen." data-en="Interchangeable snap-on heads cover all common Swiss recessed rail profiles — without replacing existing gliders.">Austauschbare Steckköpfe decken alle gängigen Schweizer Einputzschienen ab — ohne bestehende Gleiter zu ersetzen.</p>
+        </div>
+        <div class="outcome-card reveal">
+          <p class="outcome-category" data-de="Sicherheit" data-en="Safety">Sicherheit</p>
+          <div class="outcome-transform">
+            <span class="outcome-before">Leiter</span>
+            <span class="outcome-arrow">→</span>
+            <span class="outcome-after">Boden</span>
+          </div>
+          <p class="outcome-desc" data-de="Kein Leitern-Unfallrisiko. Kein Überstrecken. Der gesamte Vorgang findet auf Tischhöhe statt — sicher und ergonomisch." data-en="No ladder-fall risk. No overreaching. The entire process takes place at table height — safe and ergonomic.">Kein Leitern-Unfallrisiko. Kein Überstrecken. Der gesamte Vorgang findet auf Tischhöhe statt — sicher und ergonomisch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <div class="section-divider"></div>
+  <section class="section features-section">
+    <div class="container">
+      <div class="reveal">
+        <span class="label" data-de="Das Service-Paket" data-en="The Service Package">Das Service-Paket</span>
+        <h2 data-de="Was im Paket enthalten ist." data-en="What's included.">Was im Paket enthalten ist.</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L1 8h2v6h10V8h2L8 1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 data-de="Vor-Ort-Schienenanalyse" data-en="On-Site Rail Assessment">Vor-Ort-Schienenanalyse</h3>
+          <p data-de="Wir kommen zu Ihnen, erfassen alle Schienenvarianten und konfigurieren passende Adapter-Köpfe für Ihre Einrichtung." data-en="We come to you, record all rail variants, and configure the right adapter heads for your facility.">Wir kommen zu Ihnen, erfassen alle Schienenvarianten und konfigurieren passende Adapter-Köpfe für Ihre Einrichtung.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3 3 7-7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 data-de="Pilotinstallation" data-en="Pilot Installation">Pilotinstallation</h3>
+          <p data-de="Start in einer Station oder einem Flügel. Erst wenn das Team überzeugt ist, rollen wir auf das gesamte Haus aus." data-en="Start on one ward or wing. Only once the team is convinced do we roll out to the whole facility.">Start in einer Station oder einem Flügel. Erst wenn das Team überzeugt ist, rollen wir auf das gesamte Haus aus.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v6l3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"/></svg>
+          </div>
+          <h3 data-de="Mitarbeiterschulung" data-en="Staff Training">Mitarbeiterschulung</h3>
+          <p data-de="Praxisnahe Schulung des Hauswirtschaftsteams direkt vor Ort. Gleitfix ist in drei Minuten erklärt — und sofort anwendbar." data-en="Hands-on training for the housekeeping team directly on site. Gleitfix is explained in three minutes — and immediately usable.">Praxisnahe Schulung des Hauswirtschaftsteams direkt vor Ort. Gleitfix ist in drei Minuten erklärt — und sofort anwendbar.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.2"/><path d="M8 4v4l2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <h3 data-de="Jahres-Support (optional)" data-en="Annual Support (optional)">Jahres-Support (optional)</h3>
+          <p data-de="Jährlicher Wartungsvertrag mit Auffrischungsschulung, Ersatzteilen und neuen Köpfen bei Schienenänderungen." data-en="Annual maintenance contract with refresher training, spare parts, and new heads for rail changes.">Jährlicher Wartungsvertrag mit Auffrischungsschulung, Ersatzteilen und neuen Köpfen bei Schienenänderungen.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M8 4v8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+          <h3 data-de="Alle bestehenden Gleiter" data-en="All Existing Gliders">Alle bestehenden Gleiter</h3>
+          <p data-de="Funktioniert mit jedem Gleiter, den Ihre Einrichtung bereits besitzt. Kein Ersatz, kein proprietäres Ökosystem." data-en="Works with every glider your facility already owns. No replacement, no proprietary ecosystem.">Funktioniert mit jedem Gleiter, den Ihre Einrichtung bereits besitzt. Kein Ersatz, kein proprietäres Ökosystem.</p>
+        </div>
+        <div class="feature-card reveal">
+          <div class="feature-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.5 4.5H14l-3.75 2.75L11.7 13 8 10.5 4.3 13l1.45-4.75L2 5.5h4.5L8 1z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 data-de="Schweizer Designschutz" data-en="Swiss Design Protection">Schweizer Designschutz</h3>
+          <p data-de="Schweizer Designregistrierung und EU-Schutz der Snap-Fit-Geometrie. Entwickelt mit Hauswirtschaftsteams in der Surselva, Graubünden." data-en="Swiss design registration and EU protection of the snap-fit geometry. Developed with housekeeping teams in the Surselva, Graubünden.">Schweizer Designregistrierung und EU-Schutz der Snap-Fit-Geometrie. Entwickelt mit Hauswirtschaftsteams in der Surselva, Graubünden.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <div class="section-divider"></div>
+  <section class="section pricing-section">
+    <div class="container">
+      <div class="reveal">
+        <span class="label" data-de="Investition &amp; Pakete" data-en="Investment &amp; Plans">Investition &amp; Pakete</span>
+        <h2 data-de="Transparente Preise.<br>Keine Überraschungen." data-en="Transparent pricing.<br>No surprises.">Transparente Preise.<br>Keine Überraschungen.</h2>
+        <p class="pricing-sub" data-de="Gleitfix ist kein Produkt — es ist eine Workflow-Transformation. Deshalb liefern wir es als komplettes Service-Paket: von der Schienenanalyse bis zur Schulung Ihres Teams." data-en="Gleitfix is not a product — it is a workflow transformation. That is why we deliver it as a complete service package: from rail assessment to team training.">Gleitfix ist kein Produkt — es ist eine Workflow-Transformation. Deshalb liefern wir es als komplettes Service-Paket: von der Schienenanalyse bis zur Schulung Ihres Teams.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card reveal">
+          <span class="pricing-badge pricing-badge-plain" data-de="Einstieg" data-en="Entry">Einstieg</span>
+          <h3 class="pricing-tier-name" data-de="Werkzeug-Paket" data-en="Tool Package">Werkzeug-Paket</h3>
+          <div class="pricing-price">
+            <span class="pricing-amount">CHF 150–250</span>
+          </div>
+          <div class="pricing-items">
+            <div class="pricing-item" data-de="3–5 Adapter für Ihre Schienenprofile" data-en="3–5 adapters for your rail profiles">3–5 Adapter für Ihre Schienenprofile</div>
+            <div class="pricing-item" data-de="Profilspezifische Steckköpfe" data-en="Profile-matched snap-on heads">Profilspezifische Steckköpfe</div>
+            <div class="pricing-item" data-de="Installations-Kurzanleitung" data-en="Quick-start installation guide">Installations-Kurzanleitung</div>
+          </div>
+          <p class="pricing-note" data-de="Für kleinere Einrichtungen oder eigenständigen Einstieg." data-en="For smaller facilities or a self-guided start.">Für kleinere Einrichtungen oder eigenständigen Einstieg.</p>
+        </div>
+        <div class="pricing-card pricing-card-featured reveal">
+          <span class="pricing-badge pricing-badge-featured" data-de="Empfohlen" data-en="Recommended">Empfohlen</span>
+          <h3 class="pricing-tier-name" data-de="Service-Bundle" data-en="Service Bundle">Service-Bundle</h3>
+          <div class="pricing-price">
+            <span class="pricing-amount">CHF 300–500</span>
+            <span class="pricing-period" data-de="pro Ersteinführung" data-en="per initial rollout">pro Ersteinführung</span>
+          </div>
+          <div class="pricing-items">
+            <div class="pricing-item" data-de="Vor-Ort-Schienenanalyse" data-en="On-site rail assessment">Vor-Ort-Schienenanalyse</div>
+            <div class="pricing-item" data-de="Pilotinstallation in einer Station" data-en="Pilot installation on one ward">Pilotinstallation in einer Station</div>
+            <div class="pricing-item" data-de="Schulung des Hauswirtschaftsteams" data-en="Housekeeping team training">Schulung des Hauswirtschaftsteams</div>
+            <div class="pricing-item" data-de="Adapter-Set für das gesamte Haus" data-en="Full-facility adapter set">Adapter-Set für das gesamte Haus</div>
+          </div>
+          <p class="pricing-note" data-de="Das komplette Paket für APH, Hotels und Spitäler. Pilotiert erst — zahlt nach Überzeugung." data-en="The complete package for care homes, hotels, and hospitals. Pilot first — pay once convinced.">Das komplette Paket für APH, Hotels und Spitäler. Pilotiert erst — zahlt nach Überzeugung.</p>
+        </div>
+        <div class="pricing-card reveal">
+          <span class="pricing-badge pricing-badge-support" data-de="Optional ab Jahr 2" data-en="Optional from Year 2">Optional ab Jahr 2</span>
+          <h3 class="pricing-tier-name" data-de="Jahres-Support" data-en="Annual Support">Jahres-Support</h3>
+          <div class="pricing-price">
+            <span class="pricing-amount">CHF 100–150</span>
+            <span class="pricing-period" data-de="/ Jahr" data-en="/ year">/ Jahr</span>
+          </div>
+          <div class="pricing-items">
+            <div class="pricing-item" data-de="Jährliche Auffrischungsschulung" data-en="Annual refresher training">Jährliche Auffrischungsschulung</div>
+            <div class="pricing-item" data-de="Ersatzteile &amp; Reserve-Köpfe" data-en="Spare parts &amp; reserve heads">Ersatzteile &amp; Reserve-Köpfe</div>
+            <div class="pricing-item" data-de="Neue Profile bei Schienenänderungen" data-en="New profiles for rail changes">Neue Profile bei Schienenänderungen</div>
+          </div>
+          <p class="pricing-note" data-de="Sichert langfristigen Betrieb. Hält Ihre Hauswirtschaft zukunftssicher." data-en="Ensures long-term operation. Keeps your housekeeping future-proof.">Sichert langfristigen Betrieb. Hält Ihre Hauswirtschaft zukunftssicher.</p>
         </div>
       </div>
     </div>
@@ -699,25 +925,41 @@
   <section class="section audience">
     <div class="container">
       <div class="reveal">
-        <span class="label">Für wen</span>
-        <h2>Für alle, die schon einmal mit einer Vorhangschiene gekämpft haben.</h2>
+        <span class="label" data-de="Für wen" data-en="Who It's For">Für wen</span>
+        <h2 data-de="Von Pflegeheimen bis Facility Management.<br>Überall <em>derselbe Schmerz</em> — eine Lösung." data-en="From care homes to facility management.<br>Everywhere <em>the same pain</em> — one solution.">Von Pflegeheimen bis Facility Management.<br>Überall <em>derselbe Schmerz</em> — eine Lösung.</h2>
       </div>
       <div class="audience-grid">
         <div class="audience-card reveal">
           <div class="card-icon" aria-hidden="true">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L1 6v8h4v-4h6v4h4V6L8 1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
           </div>
-          <span class="card-label">APH Hauswirtschaft</span>
-          <h3>Pflegeheime, gelöst.</h3>
-          <p>Alters- und Pflegeheime wechseln Vorhänge saisonal an Dutzenden von Fenstern. Gleitfix: eine Person, keine Leiter, drei Minuten pro Fenster.</p>
+          <span class="card-label" data-de="APH Hauswirtschaft · Beachhead" data-en="Care Home Housekeeping · Beachhead">APH Hauswirtschaft · Beachhead</span>
+          <h3 data-de="Pflegeheime, gelöst." data-en="Care homes, solved.">Pflegeheime, gelöst.</h3>
+          <p data-de="2.500 Alters- und Pflegeheime in der Deutschschweiz. Saisonal Vorhänge an Dutzenden Fenstern — heute 30 Minuten, 2 Personen, Leiter. Mit Gleitfix: 5 Minuten, solo, am Boden." data-en="2,500 care homes in German-speaking Switzerland. Seasonal curtain changes at dozens of windows — currently 30 minutes, 2 people, a ladder. With Gleitfix: 5 minutes, solo, on the ground.">2.500 Alters- und Pflegeheime in der Deutschschweiz. Saisonal Vorhänge an Dutzenden Fenstern — heute 30 Minuten, 2 Personen, Leiter. Mit Gleitfix: 5 Minuten, solo, am Boden.</p>
         </div>
         <div class="audience-card reveal">
           <div class="card-icon" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 6l6-4 6 4v7a1 1 0 01-1 1H3a1 1 0 01-1-1V6z" stroke="currentColor" stroke-width="1.2"/><path d="M6 14V9h4v5" stroke="currentColor" stroke-width="1.2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 5h12v9H2z" stroke="currentColor" stroke-width="1.2"/><path d="M5 5V3h6v2" stroke="currentColor" stroke-width="1.2"/><path d="M8 9v3M6 11h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
           </div>
-          <span class="card-label">Zuhause</span>
-          <h3>Dein nächster Einzugstag.</h3>
-          <p>Einzug, Umdekorieren, saisonaler Vorhangwechsel? Gleitfix macht eine lästige Aufgabe zur Fünf-Minuten-Sache — ganz ohne Hilfe.</p>
+          <span class="card-label" data-de="Hotellerie" data-en="Hotels">Hotellerie</span>
+          <h3 data-de="Hotels. Jährlich. Effizient." data-en="Hotels. Annually. Efficiently.">Hotels. Jährlich. Effizient.</h3>
+          <p data-de="5.700 registrierte Hotels in der Schweiz mit regelmässigem Vorhangwechsel in Dutzenden Zimmern. Gleiche operative Logik wie APH — idealer nächster Schritt." data-en="5,700 registered hotels in Switzerland with regular curtain changes across dozens of rooms. Same operational logic as care homes — the ideal next step.">5.700 registrierte Hotels in der Schweiz mit regelmässigem Vorhangwechsel in Dutzenden Zimmern. Gleiche operative Logik wie APH — idealer nächster Schritt.</p>
+        </div>
+        <div class="audience-card reveal">
+          <div class="card-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 14V5l6-4 6 4v9" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M7 14V9h2v5" stroke="currentColor" stroke-width="1.2"/><path d="M5 7h1M10 7h1M5 10h1M10 10h1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <span class="card-label" data-de="Spitäler &amp; Kliniken" data-en="Hospitals &amp; Clinics">Spitäler &amp; Kliniken</span>
+          <h3 data-de="Hygiene. Ohne Aufwand." data-en="Hygiene. Without the hassle.">Hygiene. Ohne Aufwand.</h3>
+          <p data-de="Reguläre Vorhangwechsel sind in Spitälern Pflicht. Gleitfix reduziert den Zeitaufwand radikal — ohne Eingriff ins bestehende Schienensystem." data-en="Regular curtain changes are mandatory in hospitals. Gleitfix radically reduces the time required — without touching the existing rail system.">Reguläre Vorhangwechsel sind in Spitälern Pflicht. Gleitfix reduziert den Zeitaufwand radikal — ohne Eingriff ins bestehende Schienensystem.</p>
+        </div>
+        <div class="audience-card reveal">
+          <div class="card-icon" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h12M2 12h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <span class="card-label" data-de="Facility Management" data-en="Facility Management">Facility Management</span>
+          <h3 data-de="Portfolio-Rollout.<br>Eine Schulung." data-en="Portfolio rollout.<br>One training.">Portfolio-Rollout.<br>Eine Schulung.</h3>
+          <p data-de="Facility-Manager, die mehrere Liegenschaften betreuen, profitieren doppelt: eine Einschulung, ein System, alle Standorte — standardisiert und skalierbar." data-en="Facility managers overseeing multiple properties benefit twice: one training, one system, all locations — standardised and scalable.">Facility-Manager, die mehrere Liegenschaften betreuen, profitieren doppelt: eine Einschulung, ein System, alle Standorte — standardisiert und skalierbar.</p>
         </div>
       </div>
     </div>
@@ -738,8 +980,8 @@
         </div>
       </div>
       <div class="reveal">
-        <span class="label">Der Unterschied</span>
-        <h2>Ein Adapter.<br>Jedes Schienenprofil.</h2>
+        <span class="label" data-de="Der Unterschied" data-en="The Difference">Der Unterschied</span>
+        <h2 data-de="Ein Adapter.<br>Jedes Schienenprofil." data-en="One adapter.<br>Every rail profile.">Ein Adapter.<br>Jedes Schienenprofil.</h2>
         <p class="diff-body">Eingelassene Vorhangschienen gibt es in verschiedenen Profilen. Die meisten Lösungen passen nur für eine einzige. Gleitfix' modulares Kopfsystem rastet bei den gängigsten Typen in der Schweiz, Deutschland und Österreich ein.</p>
       </div>
       <div class="rail-profiles">
@@ -782,9 +1024,9 @@
   <section class="section credibility">
     <div class="container">
       <div class="reveal">
-        <span class="label">Warum uns vertrauen</span>
-        <h2>Entworfen in der Schweiz.<br>Entwickelt mit Präzision.</h2>
-        <p class="credibility-body">Gleitfix entsteht im Rahmen eines Projekts an der BFH (Berner Fachhochschule). Über ein Dutzend potenzielle Nutzer wurden befragt — 70&nbsp;% bestätigten das Problem ohne Nachfragen. Prototypen werden aktuell gefertigt.</p>
+        <span class="label" data-de="Warum uns vertrauen" data-en="Why trust us">Warum uns vertrauen</span>
+        <h2 data-de="Entworfen in der Schweiz.<br>Entwickelt mit Präzision." data-en="Designed in Switzerland.<br>Built with precision.">Entworfen in der Schweiz.<br>Entwickelt mit Präzision.</h2>
+        <p class="credibility-body" data-de="Gleitfix entsteht im Rahmen eines Projekts an der BFH (Berner Fachhochschule). Über ein Dutzend potenzielle Nutzer wurden befragt — 70&nbsp;% bestätigten das Problem ohne Nachfragen. Prototypen werden aktuell gefertigt." data-en="Gleitfix is being developed as part of a project at BFH (Bern University of Applied Sciences). More than a dozen potential users were interviewed — 70% confirmed the problem unprompted. Prototypes are currently being manufactured.">Gleitfix entsteht im Rahmen eines Projekts an der BFH (Berner Fachhochschule). Über ein Dutzend potenzielle Nutzer wurden befragt — 70&nbsp;% bestätigten das Problem ohne Nachfragen. Prototypen werden aktuell gefertigt.</p>
       </div>
       <div class="credibility-stats reveal">
         <div class="cred-stat">
@@ -807,7 +1049,7 @@
   <div class="section-divider"></div>
   <section class="section founder-section">
     <div class="container">
-      <div class="reveal"><span class="label">Die Gründerin</span></div>
+      <div class="reveal"><span class="label" data-de="Die Gründerin" data-en="The Founder">Die Gründerin</span></div>
       <div class="founder-inner reveal">
         <div class="founder-avatar">
           <span class="founder-initials">NT</span>
@@ -834,8 +1076,8 @@
   <section class="section testimonials-section">
     <div class="container">
       <div class="reveal">
-        <span class="label">Frühe Nutzer</span>
-        <h2>Was andere sagen.</h2>
+        <span class="label" data-de="Frühe Nutzer" data-en="Early Users">Frühe Nutzer</span>
+        <h2 data-de="Was andere sagen." data-en="What others say.">Was andere sagen.</h2>
       </div>
       <div class="reveal">
         <div class="tgrid" id="tgrid">
@@ -875,25 +1117,25 @@
 
   <!-- CTA -->
   <div class="section-divider"></div>
-  <section class="section cta-section" id="early-access">
+  <section class="section cta-section" id="pilot">
     <div class="shape shape-circle cs1" aria-hidden="true"></div>
     <div class="shape shape-plus cs2" aria-hidden="true"></div>
     <div class="shape shape-line cs3" aria-hidden="true"></div>
     <div class="shape shape-ring cs4" aria-hidden="true"></div>
     <div class="container">
       <div class="reveal">
-        <h2>Als Erste<br>Gleitfix testen.</h2>
-        <p class="cta-sub">Trag dich ein. Wir melden uns, sobald Prototypen bereit sind.</p>
+        <h2 data-de="Starten Sie Ihr<br>Pilotprojekt." data-en="Start your<br>pilot project.">Starten Sie Ihr<br>Pilotprojekt.</h2>
+        <p class="cta-sub" data-de="Hinterlassen Sie Ihre E-Mail. Wir melden uns innerhalb von 24 Stunden für einen ersten Gesprächstermin." data-en="Leave your email. We will be in touch within 24 hours to arrange an initial conversation.">Hinterlassen Sie Ihre E-Mail. Wir melden uns innerhalb von 24 Stunden für einen ersten Gesprächstermin.</p>
         <div class="cta-form-wrap">
           <div class="cta-form-glow" aria-hidden="true"></div>
           <div class="cta-form" id="signup-form">
-            <input type="email" id="signup-email" placeholder="Deine E-Mail-Adresse" required autocomplete="email" aria-label="E-Mail-Adresse">
-            <button type="button" onclick="handleSignup()">Jetzt anmelden</button>
+            <input type="email" id="signup-email" placeholder="Ihre E-Mail-Adresse" required autocomplete="email" aria-label="E-Mail-Adresse" data-de="Ihre E-Mail-Adresse" data-en="Your email address">
+            <button type="button" onclick="handleSignup()" data-de="Pilot anfragen" data-en="Request pilot">Pilot anfragen</button>
           </div>
         </div>
-        <p class="cta-fine">Kein Spam. Nur eine E-Mail, wenn wir bereit sind.</p>
+        <p class="cta-fine" data-de="Kein Spam. Kein Commitment. Nur ein Gespräch." data-en="No spam. No commitment. Just a conversation.">Kein Spam. Kein Commitment. Nur ein Gespräch.</p>
         <div id="signup-toast" style="display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:#1A1A1A;border:1px solid rgba(212,144,58,.35);border-radius:100px;padding:.85rem 2rem;color:#F0EDE6;font-family:'DM Sans',sans-serif;font-size:.9rem;z-index:9999;opacity:0;transition:opacity .4s,transform .4s;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.4);">
-          <span style="color:#D4903A;margin-right:.6rem;">✓</span>Du bist dabei. Wir melden uns.
+          <span style="color:#D4903A;margin-right:.6rem;">✓</span><span id="toast-msg">Anfrage erhalten. Wir melden uns.</span>
           <button onclick="closeToast()" style="background:none;border:none;color:#6B6B63;cursor:pointer;margin-left:1rem;font-size:1rem;line-height:1;padding:0;">×</button>
         </div>
       </div>
@@ -912,6 +1154,39 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script>
+  // ── Language toggle ──
+  let currentLang = 'de';
+  const toastMessages = { de: 'Anfrage erhalten. Wir melden uns.', en: 'Request received. We\'ll be in touch.' };
+  const emailPlaceholders = { de: 'Ihre E-Mail-Adresse', en: 'Your email address' };
+
+  function setLang(lang) {
+    if (lang === currentLang) return;
+    currentLang = lang;
+    document.documentElement.lang = lang;
+    document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-de').setAttribute('aria-pressed', lang === 'de');
+    document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
+
+    // Update all elements with data-de / data-en
+    document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+      const val = el.getAttribute('data-' + lang);
+      if (el.tagName === 'INPUT') {
+        el.placeholder = val;
+      } else {
+        el.innerHTML = val;
+      }
+    });
+
+    // Email placeholder (input element)
+    const emailInput = document.getElementById('signup-email');
+    if (emailInput) emailInput.placeholder = emailPlaceholders[lang];
+
+    // Toast message
+    const toastMsg = document.getElementById('toast-msg');
+    if (toastMsg) toastMsg.textContent = toastMessages[lang];
+  }
+
   // ── Signup toast ──
   function handleSignup(){
     const inp=document.getElementById('signup-email'),toast=document.getElementById('signup-toast');
@@ -920,7 +1195,7 @@
     inp.value='';setTimeout(closeToast,5000);
   }
   function closeToast(){const t=document.getElementById('signup-toast');t.style.opacity='0';t.style.transform='translateX(-50%) translateY(20px)';setTimeout(()=>{t.style.display='none'},400)}
-  document.getElementById('signup-email').addEventListener('keydown',e=>{if(e.key==='Enter')handleSignup()});
+  document.getElementById('signup-email').addEventListener('keydown',e=>{if(e.key==='Enter')handleSignup();});
 
   // ── Testimonial dots ──
   (function(){
